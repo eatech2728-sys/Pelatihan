@@ -11,43 +11,87 @@
 
 <style>
   :root{
-    --blue-deep:#0A2E52;
-    --blue:#0C7EBE;
-    --blue-soft:#E7F6FA;
-    --blue-line:#C9EAF0;
-    --cyan:#14C4C4;
-    --coral:#FF6B54;
-    --ink:#101B2B;
-    --ink-soft:#56707A;
-    --line:#D9EAEE;
+    --ungu-deep:#3B0764;
+    --ungu:#7C3AED;
+    --ungu-soft:#F3E8FF;
+    --ungu-line:#E2D2FA;
+    --ungu-terang:#C084FC;
+    --coral:#DB2777;
+    --ink:#241432;
+    --ink-soft:#6B5B76;
+    --line:#E6DCF2;
     --red:#C1272D;
     --ok:#12A87D;
     --radius:12px;
-    --shadow: 0 2px 6px rgba(10,46,82,.08), 0 14px 34px -16px rgba(10,46,82,.30);
-    --glow: 0 0 0 3px rgba(20,196,196,.20);
+    --shadow: 0 2px 6px rgba(59,7,100,.10), 0 14px 34px -16px rgba(59,7,100,.32);
+    --glow: 0 0 0 3px rgba(124,58,237,.22);
+
+    /* Alias lama dipertahankan supaya seluruh CSS di bawah otomatis
+       ikut berubah ke tema ungu tanpa perlu diganti satu-satu. */
+    --blue-deep: var(--ungu-deep);
+    --blue: var(--ungu);
+    --blue-soft: var(--ungu-soft);
+    --blue-line: var(--ungu-line);
+    --cyan: var(--ungu-terang);
   }
   *{box-sizing:border-box;}
   h1,h2,h3,.sec-title,.modal-head h3{font-family:'Space Grotesk','Inter',sans-serif; letter-spacing:-.01em;}
   body{
     margin:0; min-height:100vh; color:var(--ink);
     font-family:'Inter',system-ui,sans-serif; -webkit-font-smoothing:antialiased;
-    background-color:#F4FBFC;
+    background-color:#F7F3FC;
+    /* =================================================================
+       WALLPAPER: ganti 'wallpaper-instansi.jpg' di bawah dengan nama
+       file wallpaper Anda (taruh file-nya satu folder dengan HTML ini).
+       Lapisan gradasi ungu → putih di atasnya membuat wallpaper tetap
+       terlihat tapi form tetap mudah dibaca.
+       ================================================================= */
     background-image:
-      radial-gradient(900px 480px at 15% -8%, rgba(20,196,196,.16) 0%, rgba(20,196,196,0) 60%),
-      radial-gradient(700px 420px at 100% 0%, rgba(12,126,190,.14) 0%, rgba(12,126,190,0) 55%);
-    background-repeat:no-repeat;
+      linear-gradient(175deg, rgba(59,7,100,.80) 0%, rgba(124,58,237,.55) 30%, rgba(247,243,252,.94) 68%, rgba(247,243,252,1) 100%),
+      url('wallpaper-instansi.jpg');
+    background-size: cover, cover;
+    background-position: center top, center top;
+    background-attachment: fixed, fixed;
+    background-repeat: no-repeat, no-repeat;
   }
 
-  .topbar{background:var(--blue-deep); color:#fff; font-size:11.5px; letter-spacing:.04em; padding:8px 0; text-align:center;}
+  .topbar{background:var(--ungu-deep); color:#fff; font-size:11.5px; letter-spacing:.04em; padding:8px 0; text-align:center;}
   .topbar strong{font-weight:700;}
 
   .letterhead{
-    max-width:900px; margin:22px auto 0; padding:22px 24px; border-radius:12px;
-    background:linear-gradient(120deg, var(--blue-deep), var(--blue));
+    max-width:900px; margin:22px auto 0; padding:26px 24px; border-radius:12px;
+    background:linear-gradient(120deg, var(--ungu-deep), var(--ungu) 75%, var(--ungu-terang) 130%);
     box-shadow:var(--shadow); color:#fff; text-align:center;
   }
+  .letterhead-instansi{
+    display:flex; align-items:center; justify-content:center; gap:16px;
+    margin-bottom:16px; padding-bottom:16px; border-bottom:1px solid rgba(255,255,255,.28);
+  }
+  /* =================================================================
+     LOGO INSTANSI: ganti 'logo-instansi.png' dengan nama file logo
+     Anda (taruh file-nya satu folder dengan HTML ini). Kalau logo
+     belum ada / gagal dimuat, gambar otomatis disembunyikan supaya
+     tidak tampil ikon rusak.
+     ================================================================= */
+  .logo-instansi{
+    flex:0 0 auto; width:58px; height:58px; object-fit:contain;
+    background:#fff; border-radius:10px; padding:6px;
+  }
+  .instansi-text{text-align:left;}
+  .instansi-baris1{
+    margin:0; font-family:'Space Grotesk','Inter',sans-serif; font-weight:800;
+    font-size:clamp(15px,2.3vw,18px); letter-spacing:.02em; color:#fff;
+  }
+  .instansi-baris2{
+    margin:2px 0 0; font-family:'Space Grotesk','Inter',sans-serif; font-weight:600;
+    font-size:clamp(11.5px,1.8vw,13.5px); letter-spacing:.01em; color:#F3E8FF;
+  }
+  @media (max-width:480px){
+    .letterhead-instansi{flex-direction:column; text-align:center;}
+    .instansi-text{text-align:center;}
+  }
   .letterhead h1{margin:0 0 6px; font-size:clamp(20px,3vw,26px); font-weight:800;}
-  .letterhead p{margin:0; font-size:13.5px; color:#E7F6FA; font-weight:500;}
+  .letterhead p{margin:0; font-size:13.5px; color:#F3E8FF; font-weight:500;}
 
   .wrap{max-width:900px; margin:0 auto; padding:24px 18px 70px;}
 
@@ -112,11 +156,11 @@
     appearance:none; border:none; cursor:pointer;
     background:linear-gradient(120deg, var(--blue-deep) 0%, var(--blue) 68%, var(--cyan) 130%);
     color:#fff; font-family:'Inter',sans-serif; font-weight:700; letter-spacing:.02em; font-size:14.5px;
-    padding:15px 34px; border-radius:10px; box-shadow:0 6px 0 #071F38, 0 10px 26px -10px rgba(20,196,196,.55);
+    padding:15px 34px; border-radius:10px; box-shadow:0 6px 0 #2E1065, 0 10px 26px -10px rgba(124,58,237,.55);
     transition:transform .08s ease, box-shadow .18s ease, filter .18s ease; display:inline-flex; align-items:center; gap:10px;
   }
   .stamp-btn:hover{filter:brightness(1.08);}
-  .stamp-btn:active{transform:translateY(4px); box-shadow:0 2px 0 #071F38;}
+  .stamp-btn:active{transform:translateY(4px); box-shadow:0 2px 0 #2E1065;}
   .stamp-btn:disabled{background:#A9B4BF; box-shadow:0 6px 0 #8A939C; cursor:not-allowed; filter:none;}
   .stamp-btn svg{width:18px; height:18px;}
   .loading-text{color:var(--blue-deep); font-weight:600; font-size:13px; margin-top:14px; display:none;}
@@ -198,6 +242,13 @@
 
 <div class="wrap">
   <div class="letterhead">
+    <div class="letterhead-instansi">
+      <img src="logo-instansi.png" alt="Logo Pemerintah Kabupaten Wakatobi" class="logo-instansi" onerror="this.style.display='none'">
+      <div class="instansi-text">
+        <p class="instansi-baris1">PEMERINTAH KABUPATEN WAKATOBI</p>
+        <p class="instansi-baris2">DINAS KOPERASI, USAHA KECIL MENENGAH DAN TENAGA KERJA</p>
+      </div>
+    </div>
     <h1>Pendaftaran Peserta Pelatihan</h1>
     <p>Lengkapi seluruh data di bawah ini dan unggah dokumen yang diminta.</p>
   </div>
