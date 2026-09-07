@@ -342,6 +342,40 @@
       <div class="sec-head">
         <span class="sec-num">5</span>
         <div>
+          <h2 class="sec-title">Akun SIAPkerja</h2>
+          <p class="sec-hint">Pastikan Anda sudah memiliki dan melengkapi profil SIAPkerja sebelum melanjutkan pendaftaran.</p>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Apakah Anda sudah memiliki akun SIAPkerja dan profilnya sudah lengkap? <span class="req">*</span></label>
+        <select id="status_akun_siap_kerja" required onchange="perbaruiTampilanSiapKerja()">
+          <option value="" disabled selected>-- Pilih Salah Satu --</option>
+          <option value="Sudah">Sudah, akun & profil saya sudah lengkap</option>
+          <option value="Belum">Belum punya akun / profil belum lengkap</option>
+        </select>
+      </div>
+
+      <div id="blokSudahSiapKerja" style="display:none; margin-top:16px;">
+        <div class="field" style="margin-bottom:0;">
+          <label>Upload Screenshot Profil SIAPkerja <span class="req">*</span> <span style="color:var(--ink-soft); font-weight:400; font-size:11px;">(Maks 3MB)</span></label>
+          <div class="file-drop" id="drop_siap_kerja">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16"/></svg>
+            <span class="file-name" data-default="Pilih berkas...">Pilih berkas...</span>
+            <input type="file" id="file_siap_kerja" accept="image/*" onchange="handleFile(this,'drop_siap_kerja')">
+          </div>
+        </div>
+      </div>
+
+      <div id="blokBelumSiapKerja" class="pilihan-kosong-note" style="margin-top:16px; border-color:#E0B060;">
+        Anda belum memiliki akun SIAPkerja atau profilnya belum lengkap. Silakan lengkapi profil Anda di <a href="https://siapkerja.kemnaker.go.id" target="_blank" rel="noopener noreferrer" style="color:var(--blue); font-weight:700;">siapkerja.kemnaker.go.id</a> terlebih dahulu, setelah itu barulah lanjutkan pendaftaran ini.
+      </div>
+    </div>
+
+    <div class="form-section">
+      <div class="sec-head">
+        <span class="sec-num">6</span>
+        <div>
           <h2 class="sec-title">Kontak</h2>
           <p class="sec-hint">Dipakai panitia untuk menghubungi Anda terkait jadwal pelatihan.</p>
         </div>
@@ -659,11 +693,55 @@
   const hpInput = document.getElementById('no_hp');
   hpInput.addEventListener('input', () => { hpInput.value = hpInput.value.replace(/[^0-9+\-\s]/g, ''); });
 
+  // ---------------------------------------------------------------
+  // Akun SIAPkerja: tampilkan blok upload screenshot (kalau "Sudah")
+  // atau blok peringatan (kalau "Belum"), dan atur wajib/tidaknya
+  // upload screenshot sesuai pilihan.
+  // ---------------------------------------------------------------
+  function perbaruiTampilanSiapKerja() {
+    const nilai = document.getElementById('status_akun_siap_kerja').value;
+    const blokSudah = document.getElementById('blokSudahSiapKerja');
+    const blokBelum = document.getElementById('blokBelumSiapKerja');
+    const inputFileSiapKerja = document.getElementById('file_siap_kerja');
+
+    if (nilai === 'Sudah') {
+      blokSudah.style.display = 'block';
+      blokBelum.classList.remove('show');
+      inputFileSiapKerja.setAttribute('required', 'required');
+    } else if (nilai === 'Belum') {
+      blokSudah.style.display = 'none';
+      blokBelum.classList.add('show');
+      inputFileSiapKerja.removeAttribute('required');
+      inputFileSiapKerja.value = '';
+      delete compressedFileStore['file_siap_kerja'];
+      const drop = document.getElementById('drop_siap_kerja');
+      drop.classList.remove('filled');
+      drop.querySelector('.file-name').textContent = drop.querySelector('.file-name').dataset.default;
+      clearFieldError(inputFileSiapKerja);
+    } else {
+      blokSudah.style.display = 'none';
+      blokBelum.classList.remove('show');
+      inputFileSiapKerja.removeAttribute('required');
+    }
+  }
+
+  function validasiSiapKerjaSebelumKirim() {
+    const nilai = document.getElementById('status_akun_siap_kerja').value;
+    if (nilai === 'Belum') {
+      const blok = document.getElementById('blokBelumSiapKerja');
+      if (blok) blok.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      toast('error', 'Lengkapi profil SIAPkerja dahulu', 'Silakan lengkapi profil SIAPkerja Anda terlebih dahulu di siapkerja.kemnaker.go.id, baru lanjutkan pendaftaran ini.', 8000);
+      return false;
+    }
+    return true;
+  }
+
   let sedangKirim = false;
 
   function handleSubmitClick(event) {
     event.preventDefault();
     if (!validasiSemuaField(document.getElementById('formPelatihan'))) return;
+    if (!validasiSiapKerjaSebelumKirim()) return;
     prosesKirimForm();
   }
 
