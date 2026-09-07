@@ -64,7 +64,7 @@
     box-shadow:var(--shadow); color:#fff; text-align:center;
   }
   .letterhead-instansi{
-    display:flex; align-items:center; justify-content:center; gap:16px;
+    display:flex; align-items:center; justify-content:flex-start; gap:16px;
     margin-bottom:16px; padding-bottom:16px; border-bottom:1px solid rgba(255,255,255,.28);
   }
   /* =================================================================
@@ -87,13 +87,60 @@
     font-size:clamp(11.5px,1.8vw,13.5px); letter-spacing:.01em; color:#F3E8FF;
   }
   @media (max-width:480px){
-    .letterhead-instansi{flex-direction:column; text-align:center;}
-    .instansi-text{text-align:center;}
+    .letterhead-instansi{gap:10px;}
+    .logo-instansi{width:42px; height:42px; padding:4px;}
   }
   .letterhead h1{margin:0 0 6px; font-size:clamp(20px,3vw,26px); font-weight:800;}
   .letterhead p{margin:0; font-size:13.5px; color:#F3E8FF; font-weight:500;}
 
   .wrap{max-width:900px; margin:0 auto; padding:24px 18px 70px;}
+
+  /* =====================================================================
+     STATUS BAR SAMPING KIRI — tampil di layar lebar (desktop/laptop),
+     otomatis disembunyikan di layar sempit (tablet/HP) supaya tidak
+     menabrak konten utama.
+     ===================================================================== */
+  .sidebar-status{
+    position:fixed; top:150px; left:26px; width:212px; z-index:5;
+    background:rgba(255,255,255,.92); backdrop-filter:blur(6px);
+    border:1px solid var(--ungu-line); border-radius:var(--radius);
+    box-shadow:var(--shadow); padding:16px 16px 18px; display:none;
+  }
+  @media (min-width:1280px){ .sidebar-status{display:block;} }
+
+  .sidebar-status-badge{
+    display:flex; align-items:center; gap:8px; font-weight:700; font-size:12.5px;
+    color:var(--ungu-deep); padding-bottom:12px; margin-bottom:12px; border-bottom:1px dashed var(--line);
+  }
+  .status-dot{
+    flex:0 0 auto; width:9px; height:9px; border-radius:50%; background:var(--ok);
+    box-shadow:0 0 0 rgba(18,168,125,.55); animation:denyutStatus 1.8s infinite;
+  }
+  .status-dot.tutup{background:#B7C1CC; animation:none;}
+  @keyframes denyutStatus{
+    0%{box-shadow:0 0 0 0 rgba(18,168,125,.45);}
+    70%{box-shadow:0 0 0 7px rgba(18,168,125,0);}
+    100%{box-shadow:0 0 0 0 rgba(18,168,125,0);}
+  }
+
+  .sidebar-status-section{margin-bottom:14px;}
+  .sidebar-status-section:last-child{margin-bottom:0;}
+  .sidebar-status-section h4{
+    margin:0 0 8px; font-size:11px; letter-spacing:.04em; text-transform:uppercase;
+    color:var(--ungu); font-weight:800;
+  }
+  .sidebar-status-section ul{margin:0; padding-left:16px;}
+  .sidebar-status-section li{font-size:12px; color:var(--ink-soft); line-height:1.6; margin-bottom:2px;}
+  .sidebar-status-section p{margin:0; font-size:12px; color:var(--ink-soft); line-height:1.6;}
+  .sidebar-status-section a{color:var(--ungu); font-weight:700; text-decoration:none;}
+  .sidebar-status-section a:hover{text-decoration:underline;}
+
+  .sidebar-kuota-info{
+    display:flex; align-items:baseline; gap:5px; margin-top:2px;
+    font-size:11.5px; color:var(--ink-soft);
+  }
+  .sidebar-kuota-info strong{font-size:19px; color:var(--ungu-deep); font-family:'Space Grotesk',sans-serif;}
+
 
   .form-section{
     background:#fff; border:1px solid var(--line); border-radius:var(--radius);
@@ -239,6 +286,32 @@
 <div class="toast-stack" id="toastStack" aria-live="polite"></div>
 
 <div class="topbar"><strong>FORMULIR PENDAFTARAN PELATIHAN</strong> — Isi data dengan benar sesuai KTP</div>
+
+<aside class="sidebar-status" id="sidebarStatus">
+  <div class="sidebar-status-badge">
+    <span class="status-dot" id="statusDot"></span>
+    <span id="statusTeks">Memeriksa status pendaftaran…</span>
+  </div>
+
+  <div class="sidebar-status-section" id="sidebarKuotaWrap" style="display:none;">
+    <h4>Pelatihan Tersedia</h4>
+    <div class="sidebar-kuota-info"><strong id="sidebarJumlahPelatihan">0</strong> <span>kelas dibuka</span></div>
+  </div>
+
+  <div class="sidebar-status-section">
+    <h4>Syarat Utama</h4>
+    <ul>
+      <li>KTP &amp; Ijazah terakhir</li>
+      <li>Data diri sesuai KTP</li>
+      <li>Akun SIAPkerja aktif</li>
+    </ul>
+  </div>
+
+  <div class="sidebar-status-section">
+    <h4>Butuh Bantuan?</h4>
+    <p>Hubungi panitia via WhatsApp di <a href="https://wa.me/6281234567890" target="_blank" rel="noopener noreferrer">0812-3456-7890</a> (Senin–Jumat, 08.00–16.00 WITA).</p>
+  </div>
+</aside>
 
 <div class="wrap">
   <div class="letterhead">
@@ -497,6 +570,27 @@
     await muatDaftarPelatihan();
   });
 
+  function perbaruiStatusSidebar(jumlahPelatihan) {
+    const dot = document.getElementById('statusDot');
+    const teks = document.getElementById('statusTeks');
+    const kuotaWrap = document.getElementById('sidebarKuotaWrap');
+    const jumlahEl = document.getElementById('sidebarJumlahPelatihan');
+    if (!dot || !teks) return;
+
+    if (jumlahPelatihan > 0) {
+      dot.classList.remove('tutup');
+      teks.textContent = 'Pendaftaran Dibuka';
+      if (kuotaWrap && jumlahEl) {
+        jumlahEl.textContent = String(jumlahPelatihan);
+        kuotaWrap.style.display = 'block';
+      }
+    } else {
+      dot.classList.add('tutup');
+      teks.textContent = 'Belum Ada Pelatihan Dibuka';
+      if (kuotaWrap) kuotaWrap.style.display = 'none';
+    }
+  }
+
   async function muatDaftarPelatihan() {
     const select = document.getElementById('pelatihan');
     const note = document.getElementById('pilihanKosongNote');
@@ -514,6 +608,7 @@
         opt.textContent = '-- Tidak ada pelatihan yang dibuka --';
         select.appendChild(opt);
         note.classList.add('show');
+        perbaruiStatusSidebar(0);
         return;
       }
 
@@ -531,10 +626,13 @@
         select.appendChild(opt);
       });
 
+      perbaruiStatusSidebar(data.pelatihan.length);
+
     } catch (err) {
       console.error('Gagal memuat daftar pelatihan:', err);
       select.innerHTML = '<option value="" disabled selected>-- Gagal memuat, silakan refresh halaman --</option>';
       toast('error', 'Gagal memuat daftar pelatihan', 'Periksa koneksi internet Anda, lalu muat ulang halaman.', 6000);
+      perbaruiStatusSidebar(0);
     }
   }
 
