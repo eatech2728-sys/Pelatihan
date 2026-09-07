@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formulir Pendaftaran Pelatihan</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --blue-deep:#0A2E52;
+    --blue:#0C7EBE;
+    --blue-soft:#E7F6FA;
+    --blue-line:#C9EAF0;
+    --cyan:#14C4C4;
+    --coral:#FF6B54;
+    --ink:#101B2B;
+    --ink-soft:#56707A;
+    --line:#D9EAEE;
+    --red:#C1272D;
+    --ok:#12A87D;
+    --radius:12px;
+    --shadow: 0 2px 6px rgba(10,46,82,.08), 0 14px 34px -16px rgba(10,46,82,.30);
+    --glow: 0 0 0 3px rgba(20,196,196,.20);
+  }
+  *{box-sizing:border-box;}
+  h1,h2,h3,.sec-title,.modal-head h3{font-family:'Space Grotesk','Inter',sans-serif; letter-spacing:-.01em;}
+  body{
+    margin:0; min-height:100vh; color:var(--ink);
+    font-family:'Inter',system-ui,sans-serif; -webkit-font-smoothing:antialiased;
+    background-color:#F4FBFC;
+    background-image:
+      radial-gradient(900px 480px at 15% -8%, rgba(20,196,196,.16) 0%, rgba(20,196,196,0) 60%),
+      radial-gradient(700px 420px at 100% 0%, rgba(12,126,190,.14) 0%, rgba(12,126,190,0) 55%);
+    background-repeat:no-repeat;
+  }
+
+  .topbar{background:var(--blue-deep); color:#fff; font-size:11.5px; letter-spacing:.04em; padding:8px 0; text-align:center;}
+  .topbar strong{font-weight:700;}
+
+  .letterhead{
+    max-width:900px; margin:22px auto 0; padding:22px 24px; border-radius:12px;
+    background:linear-gradient(120deg, var(--blue-deep), var(--blue));
+    box-shadow:var(--shadow); color:#fff; text-align:center;
+  }
+  .letterhead h1{margin:0 0 6px; font-size:clamp(20px,3vw,26px); font-weight:800;}
+  .letterhead p{margin:0; font-size:13.5px; color:#E7F6FA; font-weight:500;}
+
+  .wrap{max-width:900px; margin:0 auto; padding:24px 18px 70px;}
+
+  .form-section{
+    background:#fff; border:1px solid var(--line); border-radius:var(--radius);
+    padding:22px 24px 26px; box-shadow:var(--shadow); margin-bottom:20px; position:relative; overflow:hidden;
+  }
+  .form-section::before{
+    content:""; position:absolute; top:0; left:0; right:0; height:3px;
+    background:linear-gradient(90deg, var(--blue-deep), var(--cyan)); opacity:.85;
+  }
+  .sec-head{display:flex; align-items:center; gap:12px; margin-bottom:18px; padding-bottom:12px; border-bottom:1px solid var(--blue-line);}
+  .sec-num{
+    flex:0 0 auto; width:32px; height:32px; border-radius:50%;
+    background:linear-gradient(150deg, var(--blue-deep), var(--blue)); color:#fff;
+    display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px;
+  }
+  .sec-title{font-weight:700; font-size:17px; color:var(--blue-deep); margin:0;}
+  .sec-hint{font-size:12px; color:var(--ink-soft); margin:2px 0 0;}
+
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  @media (max-width:640px){ .grid2{grid-template-columns:1fr;} }
+
+  .field{margin-bottom:16px;}
+  .field:last-child{margin-bottom:0;}
+  label{display:block; font-weight:600; font-size:12.5px; color:var(--blue-deep); margin-bottom:6px;}
+  label .req{color:var(--coral); font-weight:700;}
+
+  input[type="text"], input[type="date"], input[type="email"], input[type="tel"], select, textarea{
+    width:100%; padding:11px 12px; border:1.5px solid var(--line); border-radius:7px;
+    background:#F9FBFD; font-family:'Inter',sans-serif; font-size:14px; color:var(--ink);
+    outline:none; transition:border-color .15s, box-shadow .15s, background .15s;
+  }
+  textarea{resize:vertical; min-height:70px;}
+  input:focus, select:focus, textarea:focus{border-color:var(--blue); background:#fff; box-shadow:var(--glow);}
+
+  .file-drop{
+    position:relative; border:1.5px dashed var(--line); border-radius:7px; background:#F9FBFD;
+    padding:11px 12px; display:flex; align-items:center; gap:10px; cursor:pointer; transition:border-color .15s, background .15s;
+  }
+  .file-drop:hover{border-color:var(--blue);}
+  .file-drop input[type=file]{position:absolute; inset:0; opacity:0; cursor:pointer;}
+  .file-drop svg{flex:0 0 auto; width:17px; height:17px; color:var(--blue);}
+  .file-drop .file-name{flex:1; min-width:0; font-size:12.5px; color:var(--ink-soft); overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .file-drop.filled{border-style:solid; border-color:var(--ok); background:#F1F9F4;}
+  .file-drop.filled .file-name{color:var(--ok); font-weight:600;}
+  .file-compress-note{display:block; font-size:10.5px; color:var(--blue); margin-top:4px; font-weight:600;}
+
+  .checkbox-row{display:flex; align-items:flex-start; gap:10px; padding-top:4px;}
+  .checkbox-row input{width:18px; height:18px; margin-top:2px; accent-color:var(--blue); flex:0 0 auto;}
+  .checkbox-row span{font-size:13px; color:var(--ink); line-height:1.45;}
+
+  .kuota-badge{
+    display:inline-block; margin-left:6px; font-size:10.5px; font-weight:700;
+    padding:2px 8px; border-radius:999px; background:var(--blue-soft); color:var(--blue-deep);
+  }
+
+  .submit-wrap{text-align:center;}
+  .stamp-btn{
+    appearance:none; border:none; cursor:pointer;
+    background:linear-gradient(120deg, var(--blue-deep) 0%, var(--blue) 68%, var(--cyan) 130%);
+    color:#fff; font-family:'Inter',sans-serif; font-weight:700; letter-spacing:.02em; font-size:14.5px;
+    padding:15px 34px; border-radius:10px; box-shadow:0 6px 0 #071F38, 0 10px 26px -10px rgba(20,196,196,.55);
+    transition:transform .08s ease, box-shadow .18s ease, filter .18s ease; display:inline-flex; align-items:center; gap:10px;
+  }
+  .stamp-btn:hover{filter:brightness(1.08);}
+  .stamp-btn:active{transform:translateY(4px); box-shadow:0 2px 0 #071F38;}
+  .stamp-btn:disabled{background:#A9B4BF; box-shadow:0 6px 0 #8A939C; cursor:not-allowed; filter:none;}
+  .stamp-btn svg{width:18px; height:18px;}
+  .loading-text{color:var(--blue-deep); font-weight:600; font-size:13px; margin-top:14px; display:none;}
+  .loading-text.show{display:block;}
+
+  .field-error{display:none; align-items:center; gap:5px; font-size:11.5px; color:var(--red); font-weight:600; margin-top:6px;}
+  .field-error.show{display:flex;}
+  .field.has-error input, .field.has-error select, .field.has-error textarea{border-color:var(--red) !important; background:#FDF2F2 !important;}
+  .field.has-error label{color:var(--red);}
+
+  .toast-stack{
+    position:fixed; top:18px; left:50%; transform:translateX(-50%); z-index:9998;
+    display:flex; flex-direction:column; gap:10px; width:min(92vw, 420px); pointer-events:none;
+  }
+  .toast{
+    pointer-events:auto; display:flex; align-items:flex-start; gap:10px; background:#fff; border-radius:9px;
+    padding:13px 14px; box-shadow:0 10px 28px -8px rgba(10,46,82,.35), 0 2px 6px rgba(0,0,0,.06);
+    border-left:4px solid var(--blue); opacity:0; transform:translateY(-14px) scale(.98);
+    transition:opacity .28s ease, transform .28s ease;
+  }
+  .toast.show{opacity:1; transform:translateY(0) scale(1);}
+  .toast.leaving{opacity:0; transform:translateY(-10px) scale(.98);}
+  .toast.success{border-left-color:var(--ok);}
+  .toast.error{border-left-color:var(--red);}
+  .toast.info{border-left-color:var(--blue);}
+  .toast .toast-icon{flex:0 0 auto; width:20px; height:20px; margin-top:1px;}
+  .toast.success .toast-icon{color:var(--ok);}
+  .toast.error .toast-icon{color:var(--red);}
+  .toast.info .toast-icon{color:var(--blue);}
+  .toast .toast-title{font-weight:700; font-size:13px; color:var(--ink); margin:0 0 2px;}
+  .toast .toast-msg{font-size:12px; color:var(--ink-soft); margin:0; line-height:1.4;}
+  .toast .toast-close{flex:0 0 auto; background:none; border:none; cursor:pointer; color:#B7C1CC; font-size:16px; line-height:1;}
+
+  .sukses-overlay{
+    position:fixed; inset:0; background:rgba(10,46,82,.55); z-index:9990;
+    display:none; align-items:center; justify-content:center; padding:20px;
+  }
+  .sukses-overlay.show{display:flex;}
+  .sukses-card{
+    background:#fff; border-radius:16px; max-width:440px; width:100%; padding:32px 28px; text-align:center;
+    box-shadow:0 30px 80px -20px rgba(0,0,0,.5);
+  }
+  .sukses-icon{font-size:44px; margin-bottom:10px;}
+  .sukses-card h2{margin:0 0 8px; color:var(--blue-deep); font-size:20px; font-weight:800;}
+  .sukses-card p{margin:0 0 6px; color:var(--ink-soft); font-size:13.5px; line-height:1.6;}
+  .sukses-pelatihan{
+    display:inline-block; margin:12px 0; padding:8px 16px; border-radius:999px;
+    background:var(--blue-soft); color:var(--blue-deep); font-weight:700; font-size:13px;
+  }
+  .btn-tutup-sukses{
+    margin-top:16px; width:100%; padding:12px; background:var(--blue-deep); color:#fff; border:none;
+    border-radius:8px; font-weight:700; font-size:13.5px; cursor:pointer;
+  }
+  .btn-tutup-sukses:hover{filter:brightness(1.1);}
+
+  .pilihan-kosong-note{
+    font-size:12.5px; color:var(--ink-soft); background:#FFF4E5; border:1px dashed #E0B060;
+    border-radius:8px; padding:10px 12px; margin-top:8px; display:none;
+  }
+  .pilihan-kosong-note.show{display:block;}
+</style>
+</head>
+<body>
+
+<div class="toast-stack" id="toastStack" aria-live="polite"></div>
+
+<div class="topbar"><strong>FORMULIR PENDAFTARAN PELATIHAN</strong> — Isi data dengan benar sesuai KTP</div>
+
+<div class="wrap">
+  <div class="letterhead">
+    <h1>Pendaftaran Peserta Pelatihan</h1>
+    <p>Lengkapi seluruh data di bawah ini dan unggah dokumen yang diminta.</p>
+  </div>
+
+  <form id="formPelatihan" onsubmit="handleSubmitClick(event)" novalidate style="margin-top:22px;">
+
+    <div class="form-section">
+      <div class="sec-head">
+        <span class="sec-num">1</span>
+        <div>
+          <h2 class="sec-title">Pilihan Pelatihan</h2>
+          <p class="sec-hint">Pilih salah satu pelatihan yang ingin Anda ikuti.</p>
+        </div>
+      </div>
+      <div class="field">
+        <label>Pelatihan yang Dituju <span class="req">*</span></label>
+        <select id="pelatihan" required>
+          <option value="" disabled selected>-- Memuat daftar pelatihan... --</option>
+        </select>
+        <p class="pilihan-kosong-note" id="pilihanKosongNote">Belum ada pelatihan yang sedang dibuka saat ini. Silakan hubungi panitia atau coba lagi nanti.</p>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <div class="sec-head">
+        <span class="sec-num">2</span>
+        <div>
+          <h2 class="sec-title">Data Diri Sesuai KTP</h2>
+          <p class="sec-hint">Pastikan penulisan nama dan nomor identitas sudah benar.</p>
+        </div>
+      </div>
+
+      <div class="grid2" style="margin-bottom:16px;">
+        <div class="field" style="margin-bottom:0;">
+          <label>NIK (Nomor Induk Kependudukan) <span class="req">*</span></label>
+          <input type="text" id="nik" placeholder="16 Digit Angka NIK" required>
+        </div>
+        <div class="field" style="margin-bottom:0;">
+          <label>Upload Foto KTP <span class="req">*</span> <span style="color:var(--ink-soft); font-weight:400; font-size:11px;">(Maks 3MB)</span></label>
+          <div class="file-drop" id="drop_ktp">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16"/></svg>
+            <span class="file-name" data-default="Pilih berkas...">Pilih berkas...</span>
+            <input type="file" id="file_ktp" accept="image/*" onchange="handleFile(this,'drop_ktp')" required>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Nama Lengkap Sesuai KTP <span class="req">*</span></label>
+        <input type="text" id="nama" placeholder="Nama Lengkap Tanpa Singkatan" required>
+      </div>
+
+      <div class="grid2" style="margin-bottom:16px;">
+        <div class="field" style="margin-bottom:0;">
+          <label>Tempat Lahir <span class="req">*</span></label>
+          <input type="text" id="tempat_lahir" placeholder="Contoh: Wangi-Wangi" required>
+        </div>
+        <div class="field" style="margin-bottom:0;">
+          <label>Tanggal Lahir <span class="req">*</span></label>
+          <input type="date" id="tanggal_lahir" required>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Alamat Lengkap <span class="req">*</span></label>
+        <textarea id="alamat" placeholder="Alamat sesuai domisili saat ini" required></textarea>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <div class="sec-head">
+        <span class="sec-num">3</span>
+        <div>
+          <h2 class="sec-title">Pendidikan Terakhir</h2>
+          <p class="sec-hint">Pilih jenjang pendidikan formal terakhir yang Anda selesaikan.</p>
+        </div>
+      </div>
+
+      <div class="grid2">
+        <div class="field" style="margin-bottom:0;">
+          <label>Pendidikan Terakhir <span class="req">*</span></label>
+          <select id="pendidikan_terakhir" required>
+            <option value="" disabled selected>-- Pilih Pendidikan Terakhir --</option>
+            <option value="SD/Sederajat">SD/Sederajat</option>
+            <option value="SMP/Sederajat">SMP/Sederajat</option>
+            <option value="SMA/Sederajat">SMA/Sederajat</option>
+            <option value="D1/D2/D3">D1/D2/D3</option>
+            <option value="S1/D4">S1/D4</option>
+            <option value="S2">S2</option>
+            <option value="S3">S3</option>
+          </select>
+        </div>
+        <div class="field" style="margin-bottom:0;">
+          <label>Upload Ijazah Pendidikan Terakhir <span class="req">*</span> <span style="color:var(--ink-soft); font-weight:400; font-size:11px;">(Maks 3MB)</span></label>
+          <div class="file-drop" id="drop_ijazah">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16"/></svg>
+            <span class="file-name" data-default="Pilih berkas...">Pilih berkas...</span>
+            <input type="file" id="file_ijazah" accept="image/*,application/pdf" onchange="handleFile(this,'drop_ijazah')" required>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <div class="sec-head">
+        <span class="sec-num">4</span>
+        <div>
+          <h2 class="sec-title">Kontak</h2>
+          <p class="sec-hint">Dipakai panitia untuk menghubungi Anda terkait jadwal pelatihan.</p>
+        </div>
+      </div>
+
+      <div class="grid2" style="margin-bottom:16px;">
+        <div class="field" style="margin-bottom:0;">
+          <label>No. HP / WhatsApp Aktif <span class="req">*</span></label>
+          <input type="tel" id="no_hp" placeholder="08xxxxxxxxxx" inputmode="tel" required>
+        </div>
+        <div class="field" style="margin-bottom:0;">
+          <label>Email Aktif <span class="req">*</span></label>
+          <input type="email" id="email" placeholder="nama@email.com" required>
+        </div>
+      </div>
+
+      <div class="field checkbox-row" style="margin-bottom:0;">
+        <input type="checkbox" id="konfirmasi_privasi" required>
+        <span>Saya menyetujui data pribadi yang saya isi (NIK, data diri, dan berkas yang diunggah) digunakan oleh panitia <b>khusus untuk keperluan pendaftaran dan pelaksanaan pelatihan ini</b>, sesuai dengan Undang-Undang Pelindungan Data Pribadi. <span class="req">*</span></span>
+      </div>
+    </div>
+
+    <div class="submit-wrap">
+      <button type="submit" id="submitBtn" class="stamp-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16"/></svg>
+        Kirim Pendaftaran
+      </button>
+      <p id="loadingText" class="loading-text">Sedang memproses & mengunggah berkas, mohon tidak menutup halaman…</p>
+    </div>
+  </form>
+</div>
+
+<div class="sukses-overlay" id="suksesOverlay">
+  <div class="sukses-card">
+    <div class="sukses-icon">✅</div>
+    <h2>Pendaftaran Berhasil!</h2>
+    <p>Data Anda sudah tersimpan untuk pelatihan:</p>
+    <div class="sukses-pelatihan" id="suksesPelatihan">-</div>
+    <p>Panitia akan menghubungi Anda lewat No. HP/Email yang didaftarkan untuk informasi jadwal selanjutnya.</p>
+    <button type="button" class="btn-tutup-sukses" onclick="tutupSukses()">Selesai</button>
+  </div>
+</div>
+
+<script>
+  // =====================================================================
+  // GANTI URL INI dengan URL Web App hasil Deploy dari Code.gs Anda.
+  // =====================================================================
+  const WEB_APP_URL = "ISI_DENGAN_URL_WEB_APP_ANDA";
+
+  const MAX_SIZE = 3 * 1024 * 1024;
+  const TARGET_SIZE = 1.5 * 1024 * 1024;
+  const MAX_DIMENSION = 1920;
+  const compressedFileStore = {};
+
+  // ---------------------------------------------------------------
+  // Muat daftar pelatihan aktif dari server saat halaman dibuka
+  // ---------------------------------------------------------------
+  window.addEventListener('DOMContentLoaded', async () => {
+    await muatDaftarPelatihan();
+  });
+
+  async function muatDaftarPelatihan() {
+    const select = document.getElementById('pelatihan');
+    const note = document.getElementById('pilihanKosongNote');
+    try {
+      const res = await fetch(`${WEB_APP_URL}?daftarPelatihan=1`);
+      const data = await res.json();
+
+      select.innerHTML = '';
+
+      if (data.status !== 'success' || !Array.isArray(data.pelatihan) || data.pelatihan.length === 0) {
+        const opt = document.createElement('option');
+        opt.value = '';
+        opt.disabled = true;
+        opt.selected = true;
+        opt.textContent = '-- Tidak ada pelatihan yang dibuka --';
+        select.appendChild(opt);
+        note.classList.add('show');
+        return;
+      }
+
+      const placeholder = document.createElement('option');
+      placeholder.value = '';
+      placeholder.disabled = true;
+      placeholder.selected = true;
+      placeholder.textContent = '-- Pilih Pelatihan --';
+      select.appendChild(placeholder);
+
+      data.pelatihan.forEach(p => {
+        const opt = document.createElement('option');
+        opt.value = p.nama;
+        opt.textContent = p.nama + (p.sisa_kuota !== null ? ` (sisa kuota: ${p.sisa_kuota})` : '');
+        select.appendChild(opt);
+      });
+
+    } catch (err) {
+      console.error('Gagal memuat daftar pelatihan:', err);
+      select.innerHTML = '<option value="" disabled selected>-- Gagal memuat, silakan refresh halaman --</option>';
+      toast('error', 'Gagal memuat daftar pelatihan', 'Periksa koneksi internet Anda, lalu muat ulang halaman.', 6000);
+    }
+  }
+
+  // ---------------------------------------------------------------
+  // Kompresi gambar otomatis (sama seperti sistem AK-1) supaya foto
+  // dari kamera HP yang besar tetap muat di bawah 3MB.
+  // ---------------------------------------------------------------
+  function compressImage(file, targetBytes = TARGET_SIZE, maxDim = MAX_DIMENSION) {
+    return new Promise((resolve, reject) => {
+      if (!file.type.startsWith('image/')) { resolve(null); return; }
+      const imgUrl = URL.createObjectURL(file);
+      const img = new Image();
+      img.onload = () => {
+        URL.revokeObjectURL(imgUrl);
+        let { width, height } = img;
+        if (width > maxDim || height > maxDim) {
+          if (width >= height) { height = Math.round(height * (maxDim / width)); width = maxDim; }
+          else { width = Math.round(width * (maxDim / height)); height = maxDim; }
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = width; canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, width, height);
+        ctx.drawImage(img, 0, 0, width, height);
+
+        const coba = (quality, dim) => {
+          canvas.toBlob((blob) => {
+            if (!blob) { reject(new Error('Gagal mengompres gambar')); return; }
+            if (blob.size <= targetBytes || (quality <= 0.35 && dim <= 700)) {
+              const reader = new FileReader();
+              reader.onload = () => resolve({ blob, base64: reader.result.split(',')[1], type: 'image/jpeg' });
+              reader.onerror = reject;
+              reader.readAsDataURL(blob);
+              return;
+            }
+            if (quality > 0.35) { coba(quality - 0.12, dim); }
+            else {
+              const dimBaru = Math.round(dim * 0.85);
+              canvas.width = Math.round(width * (dimBaru / Math.max(width, height)));
+              canvas.height = Math.round(height * (dimBaru / Math.max(width, height)));
+              ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+              ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+              coba(0.7, dimBaru);
+            }
+          }, 'image/jpeg', quality);
+        };
+        coba(0.85, Math.max(width, height));
+      };
+      img.onerror = () => { URL.revokeObjectURL(imgUrl); reject(new Error('Gagal memuat gambar')); };
+      img.src = imgUrl;
+    });
+  }
+
+  function formatUkuran(bytes) {
+    if (bytes < 1024 * 1024) return `${Math.round(bytes / 1024)} KB`;
+    return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
+  }
+
+  function getOrBuatCatatanKompresi(drop) {
+    let note = drop.querySelector('.file-compress-note');
+    if (!note) { note = document.createElement('span'); note.className = 'file-compress-note'; drop.appendChild(note); }
+    return note;
+  }
+
+  async function handleFile(input, dropId) {
+    const drop = document.getElementById(dropId);
+    const nameEl = drop.querySelector('.file-name');
+    const note = getOrBuatCatatanKompresi(drop);
+    delete compressedFileStore[input.id];
+    note.textContent = '';
+
+    if (!(input.files && input.files[0])) {
+      drop.classList.remove('filled');
+      nameEl.textContent = nameEl.dataset.default;
+      return;
+    }
+
+    const f = input.files[0];
+    if (!f.type.startsWith('image/')) {
+      if (f.size > MAX_SIZE) {
+        alert(`Berkas "${f.name}" terlalu besar (${formatUkuran(f.size)}). Maksimal 3MB untuk file PDF.`);
+        input.value = ''; drop.classList.remove('filled'); nameEl.textContent = nameEl.dataset.default;
+        return;
+      }
+      drop.classList.add('filled'); nameEl.textContent = f.name;
+      return;
+    }
+
+    if (f.size <= TARGET_SIZE) {
+      drop.classList.add('filled'); nameEl.textContent = f.name;
+      return;
+    }
+
+    nameEl.textContent = `Mengompres "${f.name}"…`;
+    try {
+      const hasil = await compressImage(f);
+      if (!hasil) { drop.classList.add('filled'); nameEl.textContent = f.name; return; }
+      if (hasil.blob.size > MAX_SIZE) {
+        alert(`Foto "${f.name}" masih terlalu besar setelah dikompres. Coba foto lain.`);
+        input.value = ''; delete compressedFileStore[input.id];
+        drop.classList.remove('filled'); nameEl.textContent = nameEl.dataset.default;
+        return;
+      }
+      compressedFileStore[input.id] = {
+        base64: hasil.base64, type: hasil.type,
+        name: f.name.replace(/\.[^.]+$/, '') + '.jpg', size: hasil.blob.size
+      };
+      drop.classList.add('filled'); nameEl.textContent = f.name;
+      note.textContent = `Dikompres otomatis: ${formatUkuran(f.size)} → ${formatUkuran(hasil.blob.size)}`;
+    } catch (err) {
+      console.error(err);
+      alert(`Gagal mengompres foto "${f.name}". Coba foto lain.`);
+      input.value = ''; drop.classList.remove('filled'); nameEl.textContent = nameEl.dataset.default;
+    }
+  }
+
+  const toBase64 = file => new Promise((resolve, reject) => {
+    if (!file || file.length === 0) { resolve(null); return; }
+    const reader = new FileReader();
+    reader.readAsDataURL(file[0]);
+    reader.onload = () => resolve({ base64: reader.result.split(',')[1], type: file[0].type });
+    reader.onerror = reject;
+  });
+
+  async function ambilFilePayload(inputId) {
+    const input = document.getElementById(inputId);
+    if (!input || !input.files || input.files.length === 0) return null;
+    const cached = compressedFileStore[inputId];
+    if (cached) return { base64: cached.base64, type: cached.type };
+    return toBase64(input.files);
+  }
+
+  // ---------------------------------------------------------------
+  // Validasi & kirim
+  // ---------------------------------------------------------------
+  function getOrBuatFieldError(fieldEl) {
+    let err = fieldEl.querySelector('.field-error');
+    if (!err) {
+      err = document.createElement('div');
+      err.className = 'field-error';
+      err.innerHTML = `<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg><span></span>`;
+      fieldEl.appendChild(err);
+    }
+    return err;
+  }
+  function showFieldError(inputEl, pesan) {
+    const fieldEl = inputEl.closest('.field') || inputEl.parentElement;
+    if (!fieldEl) return;
+    fieldEl.classList.add('has-error');
+    const err = getOrBuatFieldError(fieldEl);
+    err.querySelector('span').textContent = pesan;
+    err.classList.add('show');
+  }
+  function clearFieldError(inputEl) {
+    const fieldEl = inputEl.closest('.field') || inputEl.parentElement;
+    if (!fieldEl) return;
+    fieldEl.classList.remove('has-error');
+    const err = fieldEl.querySelector('.field-error');
+    if (err) err.classList.remove('show');
+  }
+  document.addEventListener('input', (e) => { if (e.target.matches('input, select, textarea')) clearFieldError(e.target); });
+  document.addEventListener('change', (e) => { if (e.target.matches('input, select, textarea')) clearFieldError(e.target); });
+
+  function validasiSemuaField(form) {
+    const required = Array.from(form.querySelectorAll('input[required], select[required], textarea[required]'));
+    let fieldPertamaError = null;
+    let jumlahError = 0;
+
+    required.forEach(inp => {
+      let valid = true;
+      if (inp.type === 'checkbox') valid = inp.checked;
+      else if (inp.type === 'file') valid = !!(inp.files && inp.files.length);
+      else valid = !!inp.value.trim();
+
+      if (inp.id === 'nik' && valid && inp.value.trim().length !== 16) valid = false;
+      if (inp.type === 'email' && valid && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(inp.value.trim())) valid = false;
+
+      if (!valid) {
+        jumlahError++;
+        let pesan = 'Wajib diisi.';
+        if (inp.type === 'file') pesan = 'Berkas wajib diunggah.';
+        else if (inp.id === 'nik') pesan = 'NIK harus tepat 16 digit angka.';
+        else if (inp.type === 'email') pesan = 'Format email tidak valid.';
+        else if (inp.type === 'checkbox') pesan = 'Persetujuan wajib dicentang.';
+        showFieldError(inp, pesan);
+        if (!fieldPertamaError) fieldPertamaError = inp;
+      } else {
+        clearFieldError(inp);
+      }
+    });
+
+    if (fieldPertamaError) {
+      const sec = fieldPertamaError.closest('.form-section');
+      if (sec) sec.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setTimeout(() => fieldPertamaError.focus({ preventScroll: true }), 350);
+      toast('error', 'Formulir belum lengkap', `${jumlahError} bagian perlu diperiksa kembali sebelum dikirim.`);
+      return false;
+    }
+    return true;
+  }
+
+  const nikInput = document.getElementById('nik');
+  nikInput.setAttribute('inputmode', 'numeric');
+  nikInput.setAttribute('maxlength', '16');
+  nikInput.addEventListener('input', () => { nikInput.value = nikInput.value.replace(/[^0-9]/g, '').slice(0, 16); });
+
+  const hpInput = document.getElementById('no_hp');
+  hpInput.addEventListener('input', () => { hpInput.value = hpInput.value.replace(/[^0-9+\-\s]/g, ''); });
+
+  let sedangKirim = false;
+
+  function handleSubmitClick(event) {
+    event.preventDefault();
+    if (!validasiSemuaField(document.getElementById('formPelatihan'))) return;
+    prosesKirimForm();
+  }
+
+  async function prosesKirimForm() {
+    if (sedangKirim) return;
+    sedangKirim = true;
+    const submitBtn = document.getElementById('submitBtn');
+    const loadingText = document.getElementById('loadingText');
+    submitBtn.disabled = true;
+    loadingText.classList.add('show');
+
+    try {
+      const fileKtp = await ambilFilePayload('file_ktp');
+      const fileIjazah = await ambilFilePayload('file_ijazah');
+
+      const payload = {
+        pelatihan: document.getElementById('pelatihan').value,
+        nik: document.getElementById('nik').value,
+        nama: document.getElementById('nama').value,
+        tempat_lahir: document.getElementById('tempat_lahir').value,
+        tanggal_lahir: document.getElementById('tanggal_lahir').value,
+        alamat: document.getElementById('alamat').value,
+        pendidikan_terakhir: document.getElementById('pendidikan_terakhir').value,
+        no_hp: document.getElementById('no_hp').value,
+        email: document.getElementById('email').value,
+        konfirmasi_privasi: document.getElementById('konfirmasi_privasi').checked ? 'Ya (Setuju)' : 'Tidak',
+        file_ktp: fileKtp,
+        file_ijazah: fileIjazah
+      };
+
+      const response = await fetch(WEB_APP_URL, { method: 'POST', body: JSON.stringify(payload) });
+      const result = await response.json();
+
+      if (result.status === 'success') {
+        tampilkanSukses(result.pelatihan);
+        document.getElementById('formPelatihan').reset();
+        document.querySelectorAll('.file-drop').forEach(d => {
+          d.classList.remove('filled');
+          const n = d.querySelector('.file-name');
+          n.textContent = n.dataset.default;
+          const note = d.querySelector('.file-compress-note');
+          if (note) note.textContent = '';
+        });
+        Object.keys(compressedFileStore).forEach(k => delete compressedFileStore[k]);
+        await muatDaftarPelatihan();
+      } else if (result.status === 'duplicate') {
+        toast('error', 'NIK sudah terdaftar', result.message, 8000);
+      } else if (result.status === 'validation') {
+        toast('error', 'Data belum valid', result.message, 7000);
+      } else {
+        toast('error', 'Gagal menyimpan data', result.message || 'Silakan coba kirim kembali beberapa saat lagi.', 7000);
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      toast('error', 'Masalah jaringan', 'Terjadi kendala koneksi saat mengirim data. Silakan periksa koneksi internet Anda dan coba lagi.', 7000);
+    } finally {
+      submitBtn.disabled = false;
+      loadingText.classList.remove('show');
+      sedangKirim = false;
+    }
+  }
+
+  function tampilkanSukses(namaPelatihan) {
+    document.getElementById('suksesPelatihan').textContent = namaPelatihan;
+    document.getElementById('suksesOverlay').classList.add('show');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  function tutupSukses() {
+    document.getElementById('suksesOverlay').classList.remove('show');
+  }
+
+  function toast(type, title, msg, durasi = 4800) {
+    const stack = document.getElementById('toastStack');
+    if (!stack) { alert(title + (msg ? ': ' + msg : '')); return; }
+    const icons = {
+      success: '<svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M4 12l5 5L20 6"/></svg>',
+      error: '<svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>',
+      info: '<svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v5h1"/></svg>'
+    };
+    const el = document.createElement('div');
+    el.className = `toast ${type}`;
+    el.innerHTML = `${icons[type] || icons.info}<div class="toast-body"><p class="toast-title">${title}</p>${msg ? `<p class="toast-msg">${msg}</p>` : ''}</div><button type="button" class="toast-close" aria-label="Tutup">&times;</button>`;
+    stack.appendChild(el);
+    requestAnimationFrame(() => el.classList.add('show'));
+    const remove = () => { el.classList.add('leaving'); el.classList.remove('show'); setTimeout(() => el.remove(), 260); };
+    el.querySelector('.toast-close').addEventListener('click', remove);
+    if (durasi > 0) setTimeout(remove, durasi);
+  }
+</script>
+
+</body>
+</html>
