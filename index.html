@@ -66,17 +66,17 @@
   /* =================================================================
      GAMBAR SAMPUL INSTANSI: ganti 'sampul-instansi.jpg' dengan nama
      file gambar sampul Anda (taruh file-nya satu folder dengan HTML
-     ini, di repository GitHub yang sama). Lapisan putih transparan
-     tipis di atasnya (rgba .14) TETAP dipertahankan supaya kotaknya
-     tidak jadi terlalu ramai/gelap dan tulisan tetap mudah dibaca.
+     ini, di repository GitHub yang sama). Lapisan gradasi UNGU
+     transparan di atasnya TETAP dipertahankan supaya kotaknya tidak
+     terlalu ramai/gelap dan tulisan tetap mudah dibaca.
      Kalau file gambar belum ada, kotak akan tetap tampil normal
-     seperti sekarang (transparan tipis, tanpa gambar) — tidak error.
+     seperti sekarang (transparan keunguan, tanpa gambar) — tidak error.
      ================================================================= */
   .letterhead-instansi{
     display:flex; align-items:center; justify-content:flex-start; gap:16px;
     margin-bottom:18px; padding:14px 18px;
     background-image:
-      linear-gradient(rgba(255,255,255,.14), rgba(255,255,255,.14)),
+      linear-gradient(135deg, rgba(59,7,100,.38), rgba(124,58,237,.24) 55%, rgba(192,132,252,.18)),
       url('sampul-instansi.jpg');
     background-size: cover, cover;
     background-position: center, center;
