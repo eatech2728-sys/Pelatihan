@@ -115,17 +115,17 @@
   .instansi-text{text-align:left;}
   .instansi-baris1{
     margin:0; font-family:'Space Grotesk','Inter',sans-serif; font-weight:800;
-    font-size:clamp(15px,2.3vw,18px); letter-spacing:.02em; color:#fff;
+    font-size:clamp(18px,3vw,23px); letter-spacing:.02em; color:#fff;
   }
   .instansi-baris2{
-    margin:2px 0 0; font-family:'Space Grotesk','Inter',sans-serif; font-weight:600;
-    font-size:clamp(11.5px,1.8vw,13.5px); letter-spacing:.01em; color:#F3E8FF;
+    margin:3px 0 0; font-family:'Space Grotesk','Inter',sans-serif; font-weight:600;
+    font-size:clamp(13px,2.2vw,16px); letter-spacing:.01em; color:#F3E8FF;
   }
   @media (max-width:480px){
     .letterhead-instansi{gap:10px;}
     .logo-instansi{width:42px; height:42px; padding:4px;}
   }
-  .letterhead h1{margin:0 0 6px; font-size:clamp(20px,3vw,26px); font-weight:800;}
+  .letterhead h1{margin:0 0 6px; font-size:clamp(15px,2vw,18px); font-weight:800;}
   .letterhead p{margin:0; font-size:13.5px; color:#F3E8FF; font-weight:500;}
 
   .wrap{max-width:900px; margin:0 auto; padding:24px 18px 70px;}
@@ -536,7 +536,7 @@
 
       <div class="field">
         <label>Alamat Lengkap <span class="req">*</span></label>
-        <textarea id="alamat" placeholder="Alamat sesuai domisili saat ini" required></textarea>
+        <textarea id="alamat" placeholder="Contoh: Jl. Jendral Ahmad Yani No.08 RT/RW 000/000 Kelurahan Wanci, Kecamatan Wangi-Wangi" required></textarea>
       </div>
     </div>
 
@@ -579,15 +579,15 @@
         <span class="sec-num">4</span>
         <div>
           <h2 class="sec-title">Usaha</h2>
-          <p class="sec-hint">Isi jika Anda sudah memiliki usaha. <span class="opsional">(Opsional / tidak wajib)</span></p>
+          <p class="sec-hint">Isi jika Anda sudah memiliki usaha.</p>
         </div>
       </div>
 
       <div class="grid2" style="margin-bottom:16px;">
         <div class="field" style="margin-bottom:0;">
-          <label>Jenis Usaha <span class="opt">(Opsional)</span></label>
+          <label>Jenis Usaha</label>
           <select id="jenis_usaha">
-            <option value="" selected>-- Pilih Jenis Usaha (jika ada) --</option>
+            <option value="" selected>-- Pilih Jenis Usaha --</option>
             <option value="Kuliner">Kuliner</option>
             <option value="Perdagangan/Retail">Perdagangan/Retail</option>
             <option value="Jasa">Jasa</option>
@@ -600,13 +600,13 @@
           </select>
         </div>
         <div class="field" style="margin-bottom:0;">
-          <label>Nama Usaha <span class="opt">(Opsional)</span></label>
-          <input type="text" id="nama_usaha" placeholder="Nama usaha (jika ada)">
+          <label>Nama Usaha</label>
+          <input type="text" id="nama_usaha" placeholder="Nama usaha">
         </div>
       </div>
 
       <div class="field">
-        <label>Posisi/Jabatan <span class="opt">(Opsional)</span></label>
+        <label>Posisi/Jabatan</label>
         <input type="text" id="posisi_jabatan" placeholder="Contoh: Pemilik, Karyawan, Pengelola">
       </div>
     </div>
