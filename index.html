@@ -756,6 +756,7 @@
     try {
       const fileKtp = await ambilFilePayload('file_ktp');
       const fileIjazah = await ambilFilePayload('file_ijazah');
+      const fileSiapKerja = await ambilFilePayload('file_siap_kerja');
 
       const payload = {
         pelatihan: document.getElementById('pelatihan').value,
@@ -768,12 +769,14 @@
         jenis_usaha: document.getElementById('jenis_usaha').value,
         nama_usaha: document.getElementById('nama_usaha').value,
         posisi_jabatan: document.getElementById('posisi_jabatan').value,
+        status_akun_siap_kerja: document.getElementById('status_akun_siap_kerja').value,
         no_hp: document.getElementById('no_hp').value,
         email: document.getElementById('email').value,
         konfirmasi_privasi: document.getElementById('konfirmasi_privasi').checked ? 'Ya (Setuju)' : 'Tidak',
         konfirmasi_tata_tertib: document.getElementById('konfirmasi_tata_tertib').checked ? 'Ya (Bersedia)' : 'Tidak',
         file_ktp: fileKtp,
-        file_ijazah: fileIjazah
+        file_ijazah: fileIjazah,
+        file_siap_kerja: fileSiapKerja
       };
 
       const response = await fetch(WEB_APP_URL, { method: 'POST', body: JSON.stringify(payload) });
@@ -790,6 +793,7 @@
           if (note) note.textContent = '';
         });
         Object.keys(compressedFileStore).forEach(k => delete compressedFileStore[k]);
+        perbaruiTampilanSiapKerja();
         await muatDaftarPelatihan();
       } else if (result.status === 'duplicate') {
         toast('error', 'NIK sudah terdaftar', result.message, 8000);
