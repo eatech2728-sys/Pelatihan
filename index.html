@@ -177,6 +177,17 @@
     border-radius:8px; padding:10px 12px; margin-top:8px; display:none;
   }
   .pilihan-kosong-note.show{display:block;}
+
+  .sukses-wa-wrap{margin-top:16px; padding-top:16px; border-top:1px dashed var(--line); text-align:left;}
+  .sukses-wa-title{margin:0 0 10px; font-size:12.5px; color:var(--ink-soft); font-weight:700; text-align:center;}
+  .sukses-wa-list{display:flex; flex-direction:column; gap:8px;}
+  .wa-group-btn{
+    display:flex; align-items:center; justify-content:center; gap:8px;
+    background:#25D366; color:#fff !important; text-decoration:none; font-weight:700; font-size:13.5px;
+    padding:11px 14px; border-radius:8px; transition:filter .15s;
+  }
+  .wa-group-btn:hover{filter:brightness(1.07);}
+  .wa-group-btn svg{width:17px; height:17px; flex:0 0 auto;}
 </style>
 </head>
 <body>
@@ -301,9 +312,9 @@
 
       <div class="grid2" style="margin-bottom:16px;">
         <div class="field" style="margin-bottom:0;">
-          <label>Jenis Usaha <span class="opt"></span></label>
+          <label>Jenis Usaha <span class="opt">(Opsional)</span></label>
           <select id="jenis_usaha">
-            <option value="" selected>-- Pilih Jenis Usaha --</option>
+            <option value="" selected>-- Pilih Jenis Usaha (jika ada) --</option>
             <option value="Kuliner">Kuliner</option>
             <option value="Perdagangan/Retail">Perdagangan/Retail</option>
             <option value="Jasa">Jasa</option>
@@ -317,7 +328,7 @@
         </div>
         <div class="field" style="margin-bottom:0;">
           <label>Nama Usaha <span class="opt">(Opsional)</span></label>
-          <input type="text" id="nama_usaha" placeholder="Nama usaha">
+          <input type="text" id="nama_usaha" placeholder="Nama usaha (jika ada)">
         </div>
       </div>
 
@@ -347,9 +358,14 @@
         </div>
       </div>
 
-      <div class="field checkbox-row" style="margin-bottom:0;">
+      <div class="field checkbox-row" style="margin-bottom:14px;">
         <input type="checkbox" id="konfirmasi_privasi" required>
         <span>Saya menyetujui data pribadi yang saya isi (NIK, data diri, dan berkas yang diunggah) digunakan oleh panitia <b>khusus untuk keperluan pendaftaran dan pelaksanaan pelatihan ini</b>, sesuai dengan Undang-Undang Pelindungan Data Pribadi. <span class="req">*</span></span>
+      </div>
+
+      <div class="field checkbox-row" style="margin-bottom:0;">
+        <input type="checkbox" id="konfirmasi_tata_tertib" required>
+        <span>Saya bersedia mengikuti pelatihan selama waktu yang sudah ditentukan dan mengikuti tata tertib yang berlaku. <span class="req">*</span></span>
       </div>
     </div>
 
@@ -370,6 +386,10 @@
     <p>Data Anda sudah tersimpan untuk pelatihan:</p>
     <div class="sukses-pelatihan" id="suksesPelatihan">-</div>
     <p>Panitia akan menghubungi Anda lewat No. HP/Email yang didaftarkan untuk informasi jadwal selanjutnya.</p>
+    <div class="sukses-wa-wrap" id="suksesWaWrap" style="display:none;">
+      <p class="sukses-wa-title">Yuk gabung ke grup WhatsApp kelas Anda:</p>
+      <div class="sukses-wa-list" id="suksesWaList"></div>
+    </div>
     <button type="button" class="btn-tutup-sukses" onclick="tutupSukses()">Selesai</button>
   </div>
 </div>
@@ -673,6 +693,7 @@
         no_hp: document.getElementById('no_hp').value,
         email: document.getElementById('email').value,
         konfirmasi_privasi: document.getElementById('konfirmasi_privasi').checked ? 'Ya (Setuju)' : 'Tidak',
+        konfirmasi_tata_tertib: document.getElementById('konfirmasi_tata_tertib').checked ? 'Ya (Bersedia)' : 'Tidak',
         file_ktp: fileKtp,
         file_ijazah: fileIjazah
       };
@@ -681,7 +702,7 @@
       const result = await response.json();
 
       if (result.status === 'success') {
-        tampilkanSukses(result.pelatihan);
+        tampilkanSukses(result.pelatihan, result.grup_whatsapp);
         document.getElementById('formPelatihan').reset();
         document.querySelectorAll('.file-drop').forEach(d => {
           d.classList.remove('filled');
@@ -709,8 +730,29 @@
     }
   }
 
-  function tampilkanSukses(namaPelatihan) {
+  function tampilkanSukses(namaPelatihan, grupWhatsapp) {
     document.getElementById('suksesPelatihan').textContent = namaPelatihan;
+
+    const waWrap = document.getElementById('suksesWaWrap');
+    const waList = document.getElementById('suksesWaList');
+    waList.innerHTML = '';
+
+    const daftarGrup = Array.isArray(grupWhatsapp) ? grupWhatsapp.filter(g => g && g.url) : [];
+    if (daftarGrup.length > 0) {
+      daftarGrup.forEach(g => {
+        const a = document.createElement('a');
+        a.href = g.url;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+        a.className = 'wa-group-btn';
+        a.innerHTML = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.52 3.48A11.9 11.9 0 0012.03 0C5.46 0 .16 5.3.16 11.86c0 2.09.55 4.13 1.6 5.93L0 24l6.4-1.68a11.86 11.86 0 005.63 1.43h.01c6.57 0 11.87-5.3 11.87-11.86 0-3.17-1.24-6.15-3.39-8.41zM12.04 21.5a9.6 9.6 0 01-4.9-1.34l-.35-.21-3.65.96.98-3.56-.23-.36a9.6 9.6 0 01-1.47-5.13c0-5.32 4.33-9.65 9.65-9.65 2.58 0 5 1 6.82 2.83a9.58 9.58 0 012.83 6.82c0 5.33-4.33 9.64-9.68 9.64zm5.3-7.23c-.29-.15-1.7-.84-1.97-.94-.26-.1-.46-.15-.65.14-.19.29-.75.94-.92 1.13-.17.19-.34.22-.63.07-.29-.15-1.22-.45-2.32-1.44-.86-.76-1.44-1.71-1.6-2-.17-.29-.02-.44.13-.59.13-.13.29-.34.44-.5.14-.17.19-.29.29-.48.1-.19.05-.36-.02-.5-.07-.15-.65-1.58-.9-2.16-.24-.58-.48-.5-.65-.5h-.56c-.19 0-.5.07-.76.36-.26.29-1 1-1 2.42 0 1.43 1.02 2.81 1.17 3 .14.19 2 3.06 4.86 4.3.68.29 1.21.47 1.62.6.68.22 1.3.19 1.79.11.55-.08 1.7-.7 1.94-1.37.24-.68.24-1.26.17-1.37-.07-.12-.26-.19-.55-.34z"/></svg><span>${g.label || 'Gabung Grup WhatsApp'}</span>`;
+        waList.appendChild(a);
+      });
+      waWrap.style.display = 'block';
+    } else {
+      waWrap.style.display = 'none';
+    }
+
     document.getElementById('suksesOverlay').classList.add('show');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
