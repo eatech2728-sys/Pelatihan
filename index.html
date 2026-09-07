@@ -63,9 +63,27 @@
     background:linear-gradient(120deg, var(--ungu-deep), var(--ungu) 75%, var(--ungu-terang) 130%);
     box-shadow:var(--shadow); color:#fff; text-align:center;
   }
+  /* =================================================================
+     GAMBAR SAMPUL INSTANSI: ganti 'sampul-instansi.jpg' dengan nama
+     file gambar sampul Anda (taruh file-nya satu folder dengan HTML
+     ini, di repository GitHub yang sama). Lapisan putih transparan
+     tipis di atasnya (rgba .14) TETAP dipertahankan supaya kotaknya
+     tidak jadi terlalu ramai/gelap dan tulisan tetap mudah dibaca.
+     Kalau file gambar belum ada, kotak akan tetap tampil normal
+     seperti sekarang (transparan tipis, tanpa gambar) — tidak error.
+     ================================================================= */
   .letterhead-instansi{
     display:flex; align-items:center; justify-content:flex-start; gap:16px;
-    margin-bottom:16px; padding-bottom:16px; border-bottom:1px solid rgba(255,255,255,.28);
+    margin-bottom:18px; padding:14px 18px;
+    background-image:
+      linear-gradient(rgba(255,255,255,.14), rgba(255,255,255,.14)),
+      url('sampul-instansi.jpg');
+    background-size: cover, cover;
+    background-position: center, center;
+    background-repeat: no-repeat, no-repeat;
+    border:1px solid rgba(255,255,255,.38);
+    border-radius:12px;
+    box-shadow:0 4px 14px -6px rgba(0,0,0,.18);
   }
   /* =================================================================
      LOGO INSTANSI: ganti 'logo-instansi.png' dengan nama file logo
@@ -101,45 +119,103 @@
      menabrak konten utama.
      ===================================================================== */
   .sidebar-status{
-    position:fixed; top:150px; left:26px; width:212px; z-index:5;
+    position:fixed; top:130px; left:26px; width:270px; z-index:5;
     background:rgba(255,255,255,.92); backdrop-filter:blur(6px);
-    border:1px solid var(--ungu-line); border-radius:var(--radius);
-    box-shadow:var(--shadow); padding:16px 16px 18px; display:none;
+    border:1px solid var(--ungu-line); border-radius:16px;
+    box-shadow:var(--shadow); padding:22px 22px 26px; display:none;
+    max-height:calc(100vh - 160px); overflow-y:auto;
   }
   @media (min-width:1280px){ .sidebar-status{display:block;} }
 
   .sidebar-status-badge{
-    display:flex; align-items:center; gap:8px; font-weight:700; font-size:12.5px;
-    color:var(--ungu-deep); padding-bottom:12px; margin-bottom:12px; border-bottom:1px dashed var(--line);
+    display:flex; align-items:center; gap:9px; font-weight:700; font-size:13.5px;
+    color:var(--ungu-deep); padding-bottom:16px; margin-bottom:16px; border-bottom:1px dashed var(--line);
   }
   .status-dot{
-    flex:0 0 auto; width:9px; height:9px; border-radius:50%; background:var(--ok);
+    flex:0 0 auto; width:10px; height:10px; border-radius:50%; background:var(--ok);
     box-shadow:0 0 0 rgba(18,168,125,.55); animation:denyutStatus 1.8s infinite;
   }
   .status-dot.tutup{background:#B7C1CC; animation:none;}
   @keyframes denyutStatus{
     0%{box-shadow:0 0 0 0 rgba(18,168,125,.45);}
-    70%{box-shadow:0 0 0 7px rgba(18,168,125,0);}
+    70%{box-shadow:0 0 0 8px rgba(18,168,125,0);}
     100%{box-shadow:0 0 0 0 rgba(18,168,125,0);}
   }
 
-  .sidebar-status-section{margin-bottom:14px;}
+  .sidebar-status-section{margin-bottom:22px;}
   .sidebar-status-section:last-child{margin-bottom:0;}
   .sidebar-status-section h4{
-    margin:0 0 8px; font-size:11px; letter-spacing:.04em; text-transform:uppercase;
+    margin:0 0 10px; font-size:11.5px; letter-spacing:.04em; text-transform:uppercase;
     color:var(--ungu); font-weight:800;
   }
-  .sidebar-status-section ul{margin:0; padding-left:16px;}
-  .sidebar-status-section li{font-size:12px; color:var(--ink-soft); line-height:1.6; margin-bottom:2px;}
-  .sidebar-status-section p{margin:0; font-size:12px; color:var(--ink-soft); line-height:1.6;}
+  .sidebar-status-section ul, .sidebar-status-section ol{margin:0; padding-left:18px;}
+  .sidebar-status-section li{font-size:12.5px; color:var(--ink-soft); line-height:1.75; margin-bottom:4px;}
+  .sidebar-status-section p{margin:0; font-size:12.5px; color:var(--ink-soft); line-height:1.75;}
   .sidebar-status-section a{color:var(--ungu); font-weight:700; text-decoration:none;}
   .sidebar-status-section a:hover{text-decoration:underline;}
 
   .sidebar-kuota-info{
-    display:flex; align-items:baseline; gap:5px; margin-top:2px;
-    font-size:11.5px; color:var(--ink-soft);
+    display:flex; align-items:baseline; gap:6px; margin-top:2px;
+    font-size:12.5px; color:var(--ink-soft);
   }
-  .sidebar-kuota-info strong{font-size:19px; color:var(--ungu-deep); font-family:'Space Grotesk',sans-serif;}
+  .sidebar-kuota-info strong{font-size:24px; color:var(--ungu-deep); font-family:'Space Grotesk',sans-serif;}
+
+  /* =====================================================================
+     MENU MENGAMBANG (FLOATING BUTTON) — Kontak Admin & Syarat/Alur
+     ===================================================================== */
+  .fab-wrap{
+    position:fixed; right:20px; bottom:22px; z-index:60;
+    display:flex; flex-direction:column; align-items:flex-end; gap:10px;
+  }
+  .fab-option{
+    display:flex; align-items:center; gap:9px;
+    background:#fff; color:var(--ungu-deep); font-weight:700; font-size:12.5px;
+    padding:11px 16px; border-radius:999px; box-shadow:var(--shadow);
+    border:1px solid var(--ungu-line); cursor:pointer; text-decoration:none;
+    white-space:nowrap; opacity:0; transform:translateY(10px) scale(.94); pointer-events:none;
+    transition:opacity .18s ease, transform .18s ease;
+  }
+  .fab-option svg{width:17px; height:17px; flex:0 0 auto; color:var(--ungu);}
+  .fab-wrap.open .fab-option{opacity:1; transform:translateY(0) scale(1); pointer-events:auto;}
+  .fab-wrap.open .fab-option:nth-child(1){transition-delay:.04s;}
+  .fab-wrap.open .fab-option:nth-child(2){transition-delay:.09s;}
+
+  .fab-main{
+    width:58px; height:58px; border-radius:50%; border:none; cursor:pointer; flex:0 0 auto;
+    background:linear-gradient(135deg, var(--ungu-deep), var(--ungu) 65%, var(--ungu-terang) 130%);
+    color:#fff; display:flex; align-items:center; justify-content:center;
+    box-shadow:0 10px 24px -8px rgba(124,58,237,.55), 0 4px 10px rgba(59,7,100,.35);
+  }
+  .fab-main svg{width:25px; height:25px; transition:transform .25s ease;}
+  .fab-wrap.open .fab-main svg{transform:rotate(135deg);}
+  .fab-main:hover{filter:brightness(1.07);}
+
+  /* Modal generik untuk konten info (Syarat & Alur Pendaftaran) */
+  .info-modal-overlay{
+    position:fixed; inset:0; background:rgba(36,20,50,.55); z-index:9985;
+    display:none; align-items:center; justify-content:center; padding:20px;
+  }
+  .info-modal-overlay.show{display:flex;}
+  .info-modal-card{
+    background:#fff; border-radius:16px; max-width:460px; width:100%;
+    padding:28px 26px 30px; box-shadow:0 30px 80px -20px rgba(0,0,0,.5);
+    max-height:85vh; overflow-y:auto; position:relative; text-align:left;
+  }
+  .info-modal-close{
+    position:absolute; top:14px; right:14px; width:30px; height:30px; border-radius:50%;
+    border:none; background:var(--ungu-soft); color:var(--ungu-deep); font-size:18px;
+    cursor:pointer; line-height:1;
+  }
+  .info-modal-close:hover{filter:brightness(0.97);}
+  .info-modal-card h2{margin:0 0 18px; color:var(--ungu-deep); font-size:18px; font-weight:800;}
+  .info-modal-section{margin-bottom:18px;}
+  .info-modal-section:last-child{margin-bottom:0;}
+  .info-modal-section h4{
+    margin:0 0 10px; font-size:11.5px; letter-spacing:.04em; text-transform:uppercase;
+    color:var(--ungu); font-weight:800;
+  }
+  .info-modal-section ul, .info-modal-section ol{margin:0; padding-left:20px;}
+  .info-modal-section li{font-size:13px; color:var(--ink); line-height:1.8; margin-bottom:4px;}
 
 
   .form-section{
@@ -296,6 +372,16 @@
   <div class="sidebar-status-section" id="sidebarKuotaWrap" style="display:none;">
     <h4>Pelatihan Tersedia</h4>
     <div class="sidebar-kuota-info"><strong id="sidebarJumlahPelatihan">0</strong> <span>kelas dibuka</span></div>
+  </div>
+
+  <div class="sidebar-status-section">
+    <h4>Alur Singkat</h4>
+    <ol>
+      <li>Pilih pelatihan</li>
+      <li>Isi data diri & unggah berkas</li>
+      <li>Kirim formulir</li>
+      <li>Verifikasi oleh panitia</li>
+    </ol>
   </div>
 
   <div class="sidebar-status-section">
@@ -549,6 +635,54 @@
       <div class="sukses-wa-list" id="suksesWaList"></div>
     </div>
     <button type="button" class="btn-tutup-sukses" onclick="tutupSukses()">Selesai</button>
+  </div>
+</div>
+
+<!-- ===================================================================
+     MENU MENGAMBANG: Kontak Admin & Syarat/Alur Pendaftaran
+     =================================================================== -->
+<div class="fab-wrap" id="fabWrap">
+  <a href="https://wa.me/6281234567890" target="_blank" rel="noopener noreferrer" class="fab-option">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.52 3.48A11.9 11.9 0 0012.03 0C5.46 0 .16 5.3.16 11.86c0 2.09.55 4.13 1.6 5.93L0 24l6.4-1.68a11.86 11.86 0 005.63 1.43h.01c6.57 0 11.87-5.3 11.87-11.86 0-3.17-1.24-6.15-3.39-8.41zM12.04 21.5a9.6 9.6 0 01-4.9-1.34l-.35-.21-3.65.96.98-3.56-.23-.36a9.6 9.6 0 01-1.47-5.13c0-5.32 4.33-9.65 9.65-9.65 2.58 0 5 1 6.82 2.83a9.58 9.58 0 012.83 6.82c0 5.33-4.33 9.64-9.68 9.64zm5.3-7.23c-.29-.15-1.7-.84-1.97-.94-.26-.1-.46-.15-.65.14-.19.29-.75.94-.92 1.13-.17.19-.34.22-.63.07-.29-.15-1.22-.45-2.32-1.44-.86-.76-1.44-1.71-1.6-2-.17-.29-.02-.44.13-.59.13-.13.29-.34.44-.5.14-.17.19-.29.29-.48.1-.19.05-.36-.02-.5-.07-.15-.65-1.58-.9-2.16-.24-.58-.48-.5-.65-.5h-.56c-.19 0-.5.07-.76.36-.26.29-1 1-1 2.42 0 1.43 1.02 2.81 1.17 3 .14.19 2 3.06 4.86 4.3.68.29 1.21.47 1.62.6.68.22 1.3.19 1.79.11.55-.08 1.7-.7 1.94-1.37.24-.68.24-1.26.17-1.37-.07-.12-.26-.19-.55-.34z"/></svg>
+    <span>Kontak Admin</span>
+  </a>
+  <button type="button" class="fab-option" onclick="bukaModalSyaratAlur()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4M7.8 3h8.4a2 2 0 012 2v14l-3-2-3 2-3-2-3 2V5a2 2 0 012-2z"/></svg>
+    <span>Syarat &amp; Alur Pendaftaran</span>
+  </button>
+  <button type="button" class="fab-main" onclick="toggleFabMenu()" aria-label="Buka menu bantuan">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg>
+  </button>
+</div>
+
+<div class="info-modal-overlay" id="modalSyaratAlur">
+  <div class="info-modal-card">
+    <button type="button" class="info-modal-close" onclick="tutupModalSyaratAlur()" aria-label="Tutup">&times;</button>
+    <h2>Syarat &amp; Alur Pendaftaran</h2>
+
+    <div class="info-modal-section">
+      <h4>Syarat Pendaftaran</h4>
+      <ul>
+        <li>KTP asli/foto jelas (untuk verifikasi data diri)</li>
+        <li>Ijazah pendidikan terakhir</li>
+        <li>Nomor HP/WhatsApp dan email aktif</li>
+        <li>Akun SIAPkerja yang sudah dibuat dan profilnya lengkap</li>
+        <li>Bersedia mengikuti pelatihan sampai selesai sesuai jadwal dan tata tertib yang berlaku</li>
+      </ul>
+    </div>
+
+    <div class="info-modal-section">
+      <h4>Alur Pendaftaran</h4>
+      <ol>
+        <li>Pilih pelatihan yang ingin diikuti pada formulir</li>
+        <li>Lengkapi data diri sesuai KTP</li>
+        <li>Unggah berkas yang diminta (Foto KTP, Ijazah, Screenshot Profil SIAPkerja)</li>
+        <li>Centang persetujuan data pribadi &amp; tata tertib pelatihan</li>
+        <li>Kirim formulir pendaftaran</li>
+        <li>Panitia akan memverifikasi berkas Anda</li>
+        <li>Panitia menghubungi Anda lewat No. HP/Email untuk info jadwal pelatihan</li>
+      </ol>
+    </div>
   </div>
 </div>
 
@@ -990,6 +1124,33 @@
   function tutupSukses() {
     document.getElementById('suksesOverlay').classList.remove('show');
   }
+
+  // ---------------------------------------------------------------
+  // Menu mengambang: Kontak Admin & Syarat/Alur Pendaftaran
+  // ---------------------------------------------------------------
+  function toggleFabMenu() {
+    document.getElementById('fabWrap').classList.toggle('open');
+  }
+
+  function bukaModalSyaratAlur() {
+    document.getElementById('fabWrap').classList.remove('open');
+    document.getElementById('modalSyaratAlur').classList.add('show');
+  }
+
+  function tutupModalSyaratAlur() {
+    document.getElementById('modalSyaratAlur').classList.remove('show');
+  }
+
+  document.addEventListener('click', (e) => {
+    const fab = document.getElementById('fabWrap');
+    if (fab && fab.classList.contains('open') && !fab.contains(e.target)) {
+      fab.classList.remove('open');
+    }
+  });
+
+  document.getElementById('modalSyaratAlur').addEventListener('click', (e) => {
+    if (e.target.id === 'modalSyaratAlur') tutupModalSyaratAlur();
+  });
 
   function toast(type, title, msg, durasi = 4800) {
     const stack = document.getElementById('toastStack');
