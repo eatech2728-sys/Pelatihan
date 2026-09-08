@@ -1,5 +1,5 @@
 {
-  "name": "Pendaftaran Pelatihan - Dinas Koperasi, UKM & Tenaga Kerja Wakatobi",
+  "name": "Pendaftaran Pelatihan - Dinas Koperasi, UKM &amp; Tenaga Kerja Wakatobi",
   "short_name": "Daftar Pelatihan",
   "description": "Formulir pendaftaran peserta pelatihan Dinas Koperasi, Usaha Kecil Menengah dan Tenaga Kerja Kabupaten Wakatobi.",
   "start_url": "./index.html",
@@ -34,5 +34,10 @@
       "type": "image/png",
       "purpose": "maskable"
     }
+  ],
+  "categories": [
+    "education",
+    "events",
+    "government"
   ]
 }
