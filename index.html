@@ -529,7 +529,7 @@
           <input type="text" id="tempat_lahir" placeholder="Contoh: Wangi-Wangi" required>
         </div>
         <div class="field" style="margin-bottom:0;">
-          <label>Tanggal Lahir <span class="req">*</span></label>
+          <label>Tanggal Lahir <span class="req">*</span> <span style="color:var(--ink-soft); font-weight:400; font-size:11px;">(usia 18–55 tahun)</span></label>
           <input type="date" id="tanggal_lahir" required>
         </div>
       </div>
@@ -578,36 +578,51 @@
       <div class="sec-head">
         <span class="sec-num">4</span>
         <div>
-          <h2 class="sec-title">Usaha</h2>
-          <p class="sec-hint">Isi jika Anda sudah memiliki usaha.</p>
-        </div>
-      </div>
-
-      <div class="grid2" style="margin-bottom:16px;">
-        <div class="field" style="margin-bottom:0;">
-          <label>Jenis Usaha</label>
-          <select id="jenis_usaha">
-            <option value="" selected>-- Pilih Jenis Usaha --</option>
-            <option value="Kuliner">Kuliner</option>
-            <option value="Perdagangan/Retail">Perdagangan/Retail</option>
-            <option value="Jasa">Jasa</option>
-            <option value="Pertanian/Perkebunan">Pertanian/Perkebunan</option>
-            <option value="Perikanan/Kelautan">Perikanan/Kelautan</option>
-            <option value="Kerajinan/Industri Kreatif">Kerajinan/Industri Kreatif</option>
-            <option value="Fashion/Tekstil">Fashion/Tekstil</option>
-            <option value="Teknologi/Digital">Teknologi/Digital</option>
-            <option value="Lainnya">Lainnya</option>
-          </select>
-        </div>
-        <div class="field" style="margin-bottom:0;">
-          <label>Nama Usaha</label>
-          <input type="text" id="nama_usaha" placeholder="Nama usaha">
+          <h2 class="sec-title">Pekerjaan &amp; Usaha</h2>
+          <p class="sec-hint">Pilih kondisi yang paling sesuai dengan Anda saat ini.</p>
         </div>
       </div>
 
       <div class="field">
-        <label>Posisi/Jabatan</label>
-        <input type="text" id="posisi_jabatan" placeholder="Contoh: Pemilik, Karyawan, Pengelola">
+        <label>Status Pekerjaan Saat Ini <span class="req">*</span></label>
+        <select id="status_pekerjaan" required onchange="perbaruiTampilanUsaha()">
+          <option value="" disabled selected>-- Pilih Status Pekerjaan --</option>
+          <option value="Belum Bekerja / Sedang Mencari Kerja">Belum Bekerja / Sedang Mencari Kerja</option>
+          <option value="Bekerja (Karyawan/Pegawai)">Bekerja (Karyawan/Pegawai)</option>
+          <option value="Wirausaha / Punya Usaha Sendiri">Wirausaha / Punya Usaha Sendiri</option>
+          <option value="Pelajar/Mahasiswa">Pelajar/Mahasiswa</option>
+          <option value="Ibu Rumah Tangga">Ibu Rumah Tangga</option>
+          <option value="Lainnya">Lainnya</option>
+        </select>
+      </div>
+
+      <div id="blokUsaha" style="display:none; margin-top:16px;">
+        <div class="grid2" style="margin-bottom:16px;">
+          <div class="field" style="margin-bottom:0;">
+            <label>Jenis Usaha</label>
+            <select id="jenis_usaha">
+              <option value="" selected>-- Pilih Jenis Usaha --</option>
+              <option value="Kuliner">Kuliner</option>
+              <option value="Perdagangan/Retail">Perdagangan/Retail</option>
+              <option value="Jasa">Jasa</option>
+              <option value="Pertanian/Perkebunan">Pertanian/Perkebunan</option>
+              <option value="Perikanan/Kelautan">Perikanan/Kelautan</option>
+              <option value="Kerajinan/Industri Kreatif">Kerajinan/Industri Kreatif</option>
+              <option value="Fashion/Tekstil">Fashion/Tekstil</option>
+              <option value="Teknologi/Digital">Teknologi/Digital</option>
+              <option value="Lainnya">Lainnya</option>
+            </select>
+          </div>
+          <div class="field" style="margin-bottom:0;">
+            <label>Nama Usaha</label>
+            <input type="text" id="nama_usaha" placeholder="Nama usaha Anda">
+          </div>
+        </div>
+
+        <div class="field" style="margin-bottom:0;">
+          <label>Posisi/Jabatan</label>
+          <input type="text" id="posisi_jabatan" placeholder="Contoh: Pemilik, Pengelola">
+        </div>
       </div>
     </div>
 
@@ -780,6 +795,7 @@
   // Muat daftar pelatihan aktif dari server saat halaman dibuka
   // ---------------------------------------------------------------
   window.addEventListener('DOMContentLoaded', async () => {
+    aturBatasUsiaTanggalLahir();
     await muatDaftarPelatihan();
   });
 
@@ -1149,11 +1165,79 @@
     return true;
   }
 
+  // ---------------------------------------------------------------
+  // Pekerjaan & Usaha: tampilkan blok Jenis/Nama Usaha & Posisi-Jabatan
+  // hanya kalau status pekerjaan yang dipilih adalah Wirausaha.
+  // ---------------------------------------------------------------
+  function perbaruiTampilanUsaha() {
+    const nilai = document.getElementById('status_pekerjaan').value;
+    const blok = document.getElementById('blokUsaha');
+    const tampilkan = nilai === 'Wirausaha / Punya Usaha Sendiri';
+
+    blok.style.display = tampilkan ? 'block' : 'none';
+    if (!tampilkan) {
+      document.getElementById('jenis_usaha').value = '';
+      document.getElementById('nama_usaha').value = '';
+      document.getElementById('posisi_jabatan').value = '';
+    }
+  }
+
+  // ---------------------------------------------------------------
+  // Filter usia pendaftar: 18–55 tahun (usia produktif).
+  // ---------------------------------------------------------------
+  const USIA_MINIMAL = 18;
+  const USIA_MAKSIMAL = 55;
+
+  function formatTanggalYMD(d) {
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${y}-${m}-${day}`;
+  }
+
+  function aturBatasUsiaTanggalLahir() {
+    const input = document.getElementById('tanggal_lahir');
+    if (!input) return;
+    const now = new Date();
+    const batasMax = new Date(now.getFullYear() - USIA_MINIMAL, now.getMonth(), now.getDate());
+    const batasMin = new Date(now.getFullYear() - USIA_MAKSIMAL, now.getMonth(), now.getDate());
+    input.max = formatTanggalYMD(batasMax);
+    input.min = formatTanggalYMD(batasMin);
+  }
+
+  function hitungUsia(tanggalLahirStr) {
+    if (!tanggalLahirStr) return null;
+    const lahir = new Date(tanggalLahirStr + 'T00:00:00');
+    if (isNaN(lahir.getTime())) return null;
+    const now = new Date();
+    let usia = now.getFullYear() - lahir.getFullYear();
+    const belumUlangTahun = (now.getMonth() < lahir.getMonth()) ||
+      (now.getMonth() === lahir.getMonth() && now.getDate() < lahir.getDate());
+    if (belumUlangTahun) usia--;
+    return usia;
+  }
+
+  function validasiUsiaSebelumKirim() {
+    const input = document.getElementById('tanggal_lahir');
+    const usia = hitungUsia(input.value);
+    if (usia === null) return true; // sudah ditangani validasi "wajib diisi"
+
+    if (usia < USIA_MINIMAL || usia > USIA_MAKSIMAL) {
+      showFieldError(input, `Usia harus ${USIA_MINIMAL}–${USIA_MAKSIMAL} tahun (usia Anda saat ini: ${usia} tahun).`);
+      const sec = input.closest('.form-section');
+      if (sec) sec.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      toast('error', 'Usia tidak memenuhi syarat', `Pendaftaran hanya dibuka untuk usia produktif ${USIA_MINIMAL}–${USIA_MAKSIMAL} tahun. Usia Anda saat ini terhitung ${usia} tahun.`, 8000);
+      return false;
+    }
+    return true;
+  }
+
   let sedangKirim = false;
 
   function handleSubmitClick(event) {
     event.preventDefault();
     if (!validasiSemuaField(document.getElementById('formPelatihan'))) return;
+    if (!validasiUsiaSebelumKirim()) return;
     if (!validasiSiapKerjaSebelumKirim()) return;
     prosesKirimForm();
   }
@@ -1179,6 +1263,7 @@
         tanggal_lahir: document.getElementById('tanggal_lahir').value,
         alamat: document.getElementById('alamat').value,
         pendidikan_terakhir: document.getElementById('pendidikan_terakhir').value,
+        status_pekerjaan: document.getElementById('status_pekerjaan').value,
         jenis_usaha: document.getElementById('jenis_usaha').value,
         nama_usaha: document.getElementById('nama_usaha').value,
         posisi_jabatan: document.getElementById('posisi_jabatan').value,
