@@ -1,4 +1,5 @@
 {
+  "id": "/index.html",
   "name": "Pendaftaran Pelatihan - Dinas Koperasi, UKM & Tenaga Kerja Wakatobi",
   "short_name": "Daftar Pelatihan",
   "description": "Formulir pendaftaran peserta pelatihan Dinas Koperasi, Usaha Kecil Menengah dan Tenaga Kerja Kabupaten Wakatobi.",
@@ -9,6 +10,7 @@
   "background_color": "#F7F3FC",
   "theme_color": "#3B0764",
   "lang": "id",
+  "categories": ["government", "business", "education"],
   "icons": [
     {
       "src": "icon-192.png",
@@ -33,6 +35,22 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "screenshots/screenshot-mobile.png",
+      "sizes": "400x800",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Formulir Pendaftaran Pelatihan - tampilan HP"
+    },
+    {
+      "src": "screenshots/screenshot-desktop.png",
+      "sizes": "1024x700",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Formulir Pendaftaran Pelatihan - tampilan desktop"
     }
   ]
 }
