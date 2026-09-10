@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "id.wakatobikab.pendaftaranpelatihan",
+        "sha256_cert_fingerprints": ["13:0C:DA:D2:5B:3F:15:3B:A0:CC:61:02:FC:42:44:CC:4C:20:27:85:D9:85:9E:60:37:39:5F:C1:0C:D7:2E:E6"]
+      }
+    }]
