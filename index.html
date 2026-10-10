@@ -464,9 +464,104 @@
   }
   .wa-group-btn:hover{filter:brightness(1.07);}
   .wa-group-btn svg{width:17px; height:17px; flex:0 0 auto;}
+
+  /* =====================================================
+     ANIMASI PEMBUKA "AYO DAFTAR PELATIHAN"
+     ===================================================== */
+  .splash{
+    position:fixed; inset:0; z-index:99999; overflow:hidden;
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:18px;
+    padding:24px; text-align:center; color:#fff;
+    background:radial-gradient(circle at 50% 38%, #7C3AED 0%, #4C1D95 45%, #2A0549 100%);
+    transition:opacity .7s ease, transform .7s ease, visibility .7s;
+  }
+  .splash.keluar{opacity:0; transform:scale(1.06); visibility:hidden; pointer-events:none;}
+  .splash-ring{
+    position:absolute; left:50%; top:38%; width:120px; height:120px; margin:-60px 0 0 -60px;
+    border-radius:50%; border:2px solid rgba(255,255,255,.55); opacity:0;
+    animation:splashRing 2.6s ease-out infinite;
+  }
+  .splash-ring:nth-child(2){animation-delay:.7s;}
+  .splash-ring:nth-child(3){animation-delay:1.4s;}
+  @keyframes splashRing{0%{transform:scale(.6); opacity:.8;} 100%{transform:scale(6); opacity:0;}}
+
+  .splash-bintang{position:absolute; inset:0; pointer-events:none;}
+  .splash-bintang i{
+    position:absolute; width:6px; height:6px; border-radius:50%; background:#fff; opacity:0;
+    box-shadow:0 0 10px 3px rgba(216,180,254,.9);
+    animation:splashKilau 2.4s ease-in-out infinite;
+  }
+  @keyframes splashKilau{0%,100%{opacity:0; transform:scale(.3) translateY(0);} 50%{opacity:1; transform:scale(1) translateY(-14px);}}
+
+  .splash-logo{
+    position:relative; width:104px; height:104px; border-radius:26px; background:rgba(255,255,255,.95);
+    padding:12px; box-shadow:0 18px 50px -10px rgba(0,0,0,.5), 0 0 0 6px rgba(255,255,255,.16);
+    opacity:0; transform:scale(.2) rotate(-25deg);
+    animation:splashLogo .9s cubic-bezier(.2,1.5,.4,1) .15s forwards, splashMelayang 3s ease-in-out 1.1s infinite;
+  }
+  .splash-logo img{width:100%; height:100%; object-fit:contain; display:block;}
+  @keyframes splashLogo{to{opacity:1; transform:scale(1) rotate(0);}}
+  @keyframes splashMelayang{0%,100%{transform:translateY(0);} 50%{transform:translateY(-8px);}}
+
+  .splash-judul{
+    position:relative; display:flex; flex-wrap:wrap; justify-content:center; gap:.18em .3em;
+    font-family:'Space Grotesk',sans-serif; font-weight:800; line-height:1.05;
+    font-size:clamp(34px, 9vw, 64px); text-shadow:0 4px 24px rgba(0,0,0,.35);
+  }
+  .splash-judul span{
+    display:inline-block; opacity:0; transform:translateY(40px) scale(.7); filter:blur(8px);
+    animation:splashKata .75s cubic-bezier(.2,1.4,.4,1) forwards;
+  }
+  .splash-judul span:nth-child(1){animation-delay:.9s;}
+  .splash-judul span:nth-child(2){animation-delay:1.35s;}
+  .splash-judul span:nth-child(3){animation-delay:1.8s; color:#E9D5FF;}
+  @keyframes splashKata{to{opacity:1; transform:none; filter:blur(0);}}
+
+  .splash-sub{
+    position:relative; font-size:clamp(12px,3.2vw,15px); letter-spacing:.08em; opacity:0;
+    animation:splashMuncul .8s ease 2.5s forwards;
+  }
+  @keyframes splashMuncul{to{opacity:.92;}}
+  .splash-garis{
+    position:relative; width:min(240px,60vw); height:4px; border-radius:4px; background:rgba(255,255,255,.2); overflow:hidden;
+    opacity:0; animation:splashMuncul .4s ease 2.5s forwards;
+  }
+  .splash-garis::after{
+    content:''; position:absolute; inset:0; background:linear-gradient(90deg,#C084FC,#fff);
+    transform:translateX(-100%); animation:splashIsi 1.9s ease-in-out 2.6s forwards;
+  }
+  @keyframes splashIsi{to{transform:none;}}
+
+  .splash-hint{
+    position:absolute; left:0; right:0; bottom:70px; font-size:12.5px; opacity:0;
+    animation:splashKedip 1.6s ease-in-out infinite;
+  }
+  .splash-hint.tampil{opacity:.9;}
+  @keyframes splashKedip{0%,100%{transform:translateY(0);} 50%{transform:translateY(-4px);}}
+  .splash-lewati{
+    position:absolute; right:16px; bottom:18px; padding:8px 16px; border-radius:999px; cursor:pointer;
+    background:rgba(255,255,255,.14); color:#fff; border:1px solid rgba(255,255,255,.4);
+    font:600 12.5px 'Plus Jakarta Sans',system-ui,sans-serif; backdrop-filter:blur(4px);
+  }
+  .splash-lewati:hover{background:rgba(255,255,255,.26);}
+  @media (prefers-reduced-motion: reduce){
+    .splash-ring,.splash-bintang i,.splash-logo{animation-iteration-count:1;}
+  }
 </style>
 </head>
 <body>
+
+<div class="splash" id="splashPembuka" role="dialog" aria-label="Ayo Daftar Pelatihan">
+  <i class="splash-ring"></i><i class="splash-ring"></i><i class="splash-ring"></i>
+  <div class="splash-bintang" id="splashBintang"></div>
+  <div class="splash-logo"><img src="logo-instansi.png" alt="" onerror="this.parentNode.style.display='none'"></div>
+  <h1 class="splash-judul"><span>Ayo</span><span>Daftar</span><span>Pelatihan</span></h1>
+  <div class="splash-sub">DINAS KOPERASI, UKM DAN TENAGA KERJA &bull; KAB. WAKATOBI</div>
+  <div class="splash-garis"></div>
+  <div class="splash-hint" id="splashHint">🔊 Ketuk layar untuk menyalakan suara</div>
+  <button type="button" class="splash-lewati" id="splashLewati">Lewati ›</button>
+</div>
+
 
 <div class="toast-stack" id="toastStack" aria-live="polite"></div>
 
@@ -1544,6 +1639,90 @@
     el.querySelector('.toast-close').addEventListener('click', remove);
     if (durasi > 0) setTimeout(remove, durasi);
   }
+</script>
+
+<script>
+/* Animasi pembuka + audio "Ayo Daftar Pelatihan" (suara dibuat lewat Web Audio, tanpa file) */
+(function () {
+  const splash = document.getElementById('splashPembuka');
+  if (!splash) return;
+
+  let sudahTutup = false, suaraMain = false, timerTutup = null;
+  const DURASI = 4900;
+
+  // Tampil sekali per sesi tab saja
+  try { if (sessionStorage.getItem('splashSudahTampil') === '1') { splash.remove(); return; } } catch (e) {}
+
+  document.documentElement.style.overflow = 'hidden';
+
+  // Bintang kilau acak
+  const wadah = document.getElementById('splashBintang');
+  for (let i = 0; i < 22; i++) {
+    const b = document.createElement('i');
+    b.style.left = (Math.random() * 100) + '%';
+    b.style.top = (10 + Math.random() * 80) + '%';
+    b.style.animationDelay = (Math.random() * 2.4).toFixed(2) + 's';
+    b.style.animationDuration = (1.8 + Math.random() * 1.6).toFixed(2) + 's';
+    wadah.appendChild(b);
+  }
+
+  function nada(f, t, d, v, tipe) {
+    try { mainkanNada(f, t, d, v, tipe); } catch (e) {}
+  }
+
+  // Melodi pembuka, disinkronkan dengan kata Ayo (0.9s) - Daftar (1.35s) - Pelatihan (1.8s)
+  function mainkanAudioPembuka(offset) {
+    if (suaraMain) return;
+    suaraMain = true;
+    const o = offset || 0;
+    // Gemuruh naik saat logo muncul
+    nada(130.81, 0 - o, 1.0, 0.10, 'sawtooth');
+    nada(196.00, 0.1 - o, 0.9, 0.07, 'triangle');
+    // Kilau menaik
+    [523.25, 659.25, 783.99, 1046.5].forEach(function (f, i) { nada(f, 0.3 + i * 0.12 - o, 0.35, 0.10, 'sine'); });
+    // Tiga nada untuk tiga kata
+    nada(659.25, 0.9 - o, 0.30, 0.20, 'triangle');
+    nada(783.99, 1.35 - o, 0.30, 0.20, 'triangle');
+    nada(1046.5, 1.8 - o, 0.60, 0.22, 'triangle');
+    // Akord penutup
+    [523.25, 659.25, 783.99, 1046.5].forEach(function (f) { nada(f, 2.4 - o, 1.3, 0.10, 'sine'); });
+    nada(130.81, 2.4 - o, 1.3, 0.12, 'triangle');
+    // Kilau akhir
+    nada(1567.98, 2.7 - o, 0.5, 0.07, 'sine');
+    nada(2093.0, 2.85 - o, 0.6, 0.06, 'sine');
+  }
+
+  function tutup() {
+    if (sudahTutup) return;
+    sudahTutup = true;
+    clearTimeout(timerTutup);
+    splash.classList.add('keluar');
+    document.documentElement.style.overflow = '';
+    try { sessionStorage.setItem('splashSudahTampil', '1'); } catch (e) {}
+    setTimeout(function () { splash.remove(); }, 800);
+  }
+
+  // Coba bunyikan langsung; kalau diblokir browser, tunggu ketukan pertama
+  const mulaiMs = performance.now();
+  let ctx = null;
+  try { ctx = ambilAudioCtx(); } catch (e) {}
+  if (ctx && ctx.state === 'running') {
+    mainkanAudioPembuka(0);
+  } else {
+    document.getElementById('splashHint').classList.add('tampil');
+    const buka = function () {
+      document.getElementById('splashHint').classList.remove('tampil');
+      try { ambilAudioCtx(); } catch (e) {}
+      mainkanAudioPembuka(Math.min((performance.now() - mulaiMs) / 1000, 2.0));
+    };
+    ['pointerdown', 'touchstart', 'keydown', 'click'].forEach(function (ev) {
+      splash.addEventListener(ev, buka, { once: true });
+    });
+  }
+
+  document.getElementById('splashLewati').addEventListener('click', function (e) { e.stopPropagation(); tutup(); });
+  timerTutup = setTimeout(tutup, DURASI);
+})();
 </script>
 
 </body>
