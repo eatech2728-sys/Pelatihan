@@ -78,8 +78,7 @@ hpInput.addEventListener('input', () => { hpInput.value = hpInput.value.replace(
 
 // ---------------------------------------------------------------
 // Akun SIAPkerja: tampilkan blok upload screenshot (kalau "Sudah")
-// atau blok peringatan (kalau "Belum"), dan atur wajib/tidaknya
-// upload screenshot sesuai pilihan.
+// atau blok imbauan (kalau "Belum"). Semua bagian ini opsional.
 // ---------------------------------------------------------------
 function perbaruiTampilanSiapKerja() {
   const nilai = document.getElementById('status_akun_siap_kerja').value;
@@ -90,7 +89,6 @@ function perbaruiTampilanSiapKerja() {
   if (nilai === 'Sudah') {
     blokSudah.style.display = 'block';
     blokBelum.classList.remove('show');
-    inputFileSiapKerja.setAttribute('required', 'required');
   } else if (nilai === 'Belum') {
     blokSudah.style.display = 'none';
     blokBelum.classList.add('show');
@@ -109,13 +107,7 @@ function perbaruiTampilanSiapKerja() {
 }
 
 function validasiSiapKerjaSebelumKirim() {
-  const nilai = document.getElementById('status_akun_siap_kerja').value;
-  if (nilai === 'Belum') {
-    const blok = document.getElementById('blokBelumSiapKerja');
-    if (blok) blok.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    toast('error', 'Lengkapi profil SIAPkerja dahulu', 'Silakan lengkapi profil SIAPkerja Anda terlebih dahulu di siapkerja.kemnaker.go.id, baru lanjutkan pendaftaran ini.', 8000);
-    return false;
-  }
+  // Akun SIAPkerja bersifat opsional: tidak menghalangi pengiriman formulir.
   return true;
 }
 
