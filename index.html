@@ -67,7 +67,7 @@
     <ul>
       <li>KTP &amp; Ijazah terakhir</li>
       <li>Data diri sesuai KTP</li>
-      <li>Akun SIAPkerja aktif</li>
+      <li>Akun SIAPkerja (disarankan)</li>
     </ul>
   </div>
 
@@ -246,14 +246,14 @@
         <span class="sec-num">5</span>
         <div>
           <h2 class="sec-title">Akun SIAPkerja</h2>
-          <p class="sec-hint">Pastikan Anda sudah memiliki dan melengkapi profil SIAPkerja sebelum melanjutkan pendaftaran.</p>
+          <p class="sec-hint">Disarankan sudah memiliki akun SIAPkerja dengan profil lengkap. Bagian ini boleh dikosongkan.</p>
         </div>
       </div>
 
       <div class="field">
-        <label>Apakah Anda sudah memiliki akun SIAPkerja dan profilnya sudah lengkap? <span class="req">*</span></label>
-        <select id="status_akun_siap_kerja" required onchange="perbaruiTampilanSiapKerja()">
-          <option value="" disabled selected>-- Pilih Salah Satu --</option>
+        <label>Apakah Anda sudah memiliki akun SIAPkerja dan profilnya sudah lengkap?</label>
+        <select id="status_akun_siap_kerja" onchange="perbaruiTampilanSiapKerja()">
+          <option value="" selected>-- Pilih Salah Satu --</option>
           <option value="Sudah">Sudah, akun & profil saya sudah lengkap</option>
           <option value="Belum">Belum punya akun / profil belum lengkap</option>
         </select>
@@ -261,7 +261,7 @@
 
       <div id="blokSudahSiapKerja" style="display:none; margin-top:16px;">
         <div class="field" style="margin-bottom:0;">
-          <label>Upload Screenshot Profil SIAPkerja <span class="req">*</span> <span style="color:var(--ink-soft); font-weight:400; font-size:11px;">(Maks 3MB)</span></label>
+          <label>Upload Screenshot Profil SIAPkerja <span style="color:var(--ink-soft); font-weight:400; font-size:11px;">(Maks 3MB)</span></label>
           <div class="file-drop" id="drop_siap_kerja">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16"/></svg>
             <span class="file-name" data-default="Pilih berkas...">Pilih berkas...</span>
@@ -271,7 +271,7 @@
       </div>
 
       <div id="blokBelumSiapKerja" class="pilihan-kosong-note" style="margin-top:16px; border-color:#E0B060;">
-        Anda belum memiliki akun SIAPkerja atau profilnya belum lengkap. Silakan lengkapi profil Anda di <a href="https://siapkerja.kemnaker.go.id" target="_blank" rel="noopener noreferrer" style="color:var(--blue); font-weight:700;">siapkerja.kemnaker.go.id</a> terlebih dahulu, setelah itu barulah lanjutkan pendaftaran ini.
+        Anda belum memiliki akun SIAPkerja atau profilnya belum lengkap. Sebaiknya lengkapi profil Anda di <a href="https://siapkerja.kemnaker.go.id" target="_blank" rel="noopener noreferrer" style="color:var(--blue); font-weight:700;">siapkerja.kemnaker.go.id</a> agar mudah mengikuti proses pelatihan dan penyaluran kerja. Anda tetap dapat melanjutkan pendaftaran ini.
       </div>
     </div>
 
@@ -365,7 +365,7 @@
         <li>KTP asli/foto jelas (untuk verifikasi data diri)</li>
         <li>Ijazah pendidikan terakhir</li>
         <li>Nomor HP/WhatsApp dan email aktif</li>
-        <li>Akun SIAPkerja yang sudah dibuat dan profilnya lengkap</li>
+        <li>Akun SIAPkerja yang sudah dibuat dan profilnya lengkap (disarankan, tidak wajib)</li>
         <li>Bersedia mengikuti pelatihan sampai selesai sesuai jadwal dan tata tertib yang berlaku</li>
       </ul>
     </div>
@@ -375,7 +375,7 @@
       <ol>
         <li>Pilih pelatihan yang ingin diikuti pada formulir</li>
         <li>Lengkapi data diri sesuai KTP</li>
-        <li>Unggah berkas yang diminta (Foto KTP, Ijazah, Screenshot Profil SIAPkerja)</li>
+        <li>Unggah berkas yang diminta (Foto KTP, Ijazah, serta Screenshot Profil SIAPkerja jika sudah punya)</li>
         <li>Centang persetujuan data pribadi &amp; tata tertib pelatihan</li>
         <li>Kirim formulir pendaftaran</li>
         <li>Panitia akan memverifikasi berkas Anda</li>
