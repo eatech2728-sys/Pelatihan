@@ -421,6 +421,11 @@ input:focus, select:focus, textarea:focus{border-color:var(--blue); background:#
   display:inline-block; margin:12px 0; padding:8px 16px; border-radius:999px;
   background:var(--blue-soft); color:var(--blue-deep); font-weight:700; font-size:13px;
 }
+.sukses-kartu{
+  margin:10px 0; padding:9px 12px; border-radius:10px; font-size:12.5px; line-height:1.5; text-align:left;
+}
+.sukses-kartu.ok{background:#E7F9F2; color:#0F7A5C; border:1px solid #B7EBD8;}
+.sukses-kartu.gagal{background:#FFF6E5; color:#8A5A00; border:1px solid #F1D79B;}
 .btn-tutup-sukses{
   margin-top:16px; width:100%; padding:12px; background:var(--blue-deep); color:#fff; border:none;
   border-radius:8px; font-weight:700; font-size:13.5px; cursor:pointer;
