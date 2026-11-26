@@ -29,8 +29,25 @@ function tembakConfetti() {
   setTimeout(() => wrap.remove(), 2400);
 }
 
-function tampilkanSukses(namaPelatihan, grupWhatsapp) {
+function tampilkanSukses(namaPelatihan, grupWhatsapp, infoKartu) {
   document.getElementById('suksesPelatihan').textContent = namaPelatihan;
+
+  // Info pengiriman Kartu Peserta ke email
+  const kartuEl = document.getElementById('suksesKartu');
+  if (kartuEl) {
+    const email = infoKartu && infoKartu.email ? infoKartu.email : '';
+    if (infoKartu && infoKartu.status === 'terkirim') {
+      kartuEl.className = 'sukses-kartu ok';
+      kartuEl.textContent = '🪪 Kartu Peserta sudah dikirim ke email ' + email + '. Jika belum terlihat, cek folder Spam/Promosi.';
+      kartuEl.style.display = 'block';
+    } else if (infoKartu && infoKartu.status === 'gagal') {
+      kartuEl.className = 'sukses-kartu gagal';
+      kartuEl.textContent = 'Kartu Peserta belum berhasil dikirim ke email. Pendaftaran Anda tetap tersimpan; panitia akan mengirimkan kartu Anda.';
+      kartuEl.style.display = 'block';
+    } else {
+      kartuEl.style.display = 'none';
+    }
+  }
 
   const waWrap = document.getElementById('suksesWaWrap');
   const waList = document.getElementById('suksesWaList');
