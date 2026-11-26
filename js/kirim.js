@@ -49,7 +49,7 @@ async function prosesKirimForm() {
     const result = await response.json();
 
     if (result.status === 'success') {
-      tampilkanSukses(result.pelatihan, result.grup_whatsapp);
+      tampilkanSukses(result.pelatihan, result.grup_whatsapp, { status: result.kartu_email, email: result.email });
       document.getElementById('formPelatihan').reset();
       document.querySelectorAll('.file-drop').forEach(d => {
         d.classList.remove('filled');
